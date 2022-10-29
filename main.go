@@ -1,7 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
+	pg.say()
 	fmt.Println("Hello world!")
 }

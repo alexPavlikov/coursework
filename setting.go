@@ -14,4 +14,5 @@ type Setting struct {
 
 func init() {
 	fmt.Println("Hello setting")
+
 }

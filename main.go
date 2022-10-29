@@ -5,6 +5,5 @@ import (
 )
 
 func main() {
-	pg.say()
 	fmt.Println("Hello world!")
 }

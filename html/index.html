@@ -1,0 +1,307 @@
+{{ define "index" }}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/assets/css/style.css">
+    
+    <link rel="stylesheet" href="/assets/css/awesome/css/all.css" />
+
+    <title>Главная страница</title>
+
+</head>
+
+<script type='text/javascript'>
+    document.addEventListener("DOMContentLoaded", () => {
+  const auth = document.getElementById("auth");
+  const main = document.getElementById("main");
+  const user = document.getElementById("user");
+
+    auth.addEventListener("click", () => {
+    main.classList.toggle("is-visible");
+    user.classList.toggle("active");
+  });
+  if(window.location.pathname == '/enter') {
+  user.classList.toggle("active");
+  }
+});
+</script>
+
+<header>
+
+    <div class="intro">
+        <div class="intro__item">
+            <div class="intro__brand"><a href="/"><img style="border-radius: 150px;" src="/data/logo.png" alt=""></a></div>
+            <div class="intro__link">
+                <a class="intro__link--item" href="/discount">Акции</a>
+                <a class="intro__link--item" href="/smartphone">Смартфоны</a>
+                <!-- <div class="dropdown">
+                    
+                    <div class="dropdown-content">
+                        <div class="drop-content-item">
+                            <a class="drop-item" href="#"><img src="/Data/logo.png" alt=""><br><span>Ссылка 1</span></a>
+                            <a class="drop-item" href="#"><img src="/Data/logo.png" alt=""><br><span>Ссылка 1</span></a>
+                            <a class="drop-item" href="#"><img src="/Data/logo.png" alt=""><br><span>Ссылка 1</span></a>
+                            <a class="drop-item" href="#"><img src="/Data/logo.png" alt=""><br><span>Ссылка 1</span></a>
+                            <a class="drop-item" href="#"><img src="/Data/logo.png" alt=""><br><span>Ссылка 1</span></a>
+                            <a class="drop-item" href="#"><img src="/Data/logo.png" alt=""><br><span>Ссылка 1</span></a>
+                        </div>                           
+                    </div>                   
+               </div> -->
+
+                <div class="dropdown">
+                    <a class="intro__link--item " href="">Умный дом</a>
+                    <div class="dropdown-content">
+                        <div class="drop-content-item">
+                            {{range $_, $e := . }}
+                                <a class="drop-item" href="#"><img src="/data/logo.png" alt=""><br><span class="drop-item--name">{{ $e.Name }}</span></a>
+                                
+                            {{end}}
+                        </div>                           
+                    </div>                   
+               </div>
+                                            
+                <div class="dropdown">
+                    <a class="intro__link--item " href="">Лайфстайл</a>
+                    <div class="dropdown-content">
+                        <div class="drop-content-item">
+                            <a class="drop-item" href="#"><img src="/data/logo.png" alt=""><br><span>Ссылка 1</span></a>
+                            <a class="drop-item" href="#"><img src="/data/logo.png" alt=""><br><span>Ссылка 1</span></a>
+                            <a class="drop-item" href="#"><img src="/data/logo.png" alt=""><br><span>Ссылка 1</span></a>
+                            <a class="drop-item" href="#"><img src="/data/logo.png" alt=""><br><span>Ссылка 1</span></a>
+                            <a class="drop-item" href="#"><img src="/data/logo.png" alt=""><br><span>Ссылка 1</span></a>
+                            <a class="drop-item" href="#"><img src="/data/logo.png" alt=""><br><span>Ссылка 1</span></a>
+                        </div>                           
+                    </div>                        
+                </div>           
+            </div>
+        </div>
+        <div class="intro__item intro__right">
+            <div class="intro__link">
+                <a class="intro__link--item" href="">Блог</a>
+                <a class="intro__link--item" href="">Все товары</a>
+            </div>
+            <div class="intro__imgLink">  
+                <a class="intro__img" href=""><i class="fa-solid fa-magnifying-glass"></i></a>
+                <a class="intro__img" href=""><i class="fa-solid fa-cart-shopping"></i></a>
+                <button id="auth" class="intro__img" href=""><i id="user" class="fa-solid fa-user"></i></button><!-- onclick="authWindow()" -->
+            </div>
+        </div>
+    </div>
+
+    
+   
+</header>
+
+<!-- <main id="main">
+    <label for="">Добро пожаловать!</label>
+    <input id="userLog" type="text" placeholder="Введите ваш логин">
+    <input id="userPass" type="password" placeholder="Введите ваш пароль">
+    <div class="b_list">
+        <button onclick="Login.bind(button, userLog, userPass)" class="pre-order__button">Войти</button>
+        <button class="pre-order__button">Регистрация</button>
+    </div>
+</main> -->
+
+<body>
+
+    <form action="" method="post">
+        <main id="main">
+            <label for="">Добро пожаловать!</label>
+            <input name="login" id="userLog" type="text" placeholder="Введите ваш логин">
+            <input name="password" id="userPass" type="password" placeholder="Введите ваш пароль">
+            <div class="b_list">
+                <button name="enter" formaction="/enter" class="pre-order__button">Войти</button>
+                <button name="registration" formaction="/registration" class="pre-order__button">Регистрация</button>
+    
+                <!-- <input  type="submit" name="enter" value="Войти">
+                <input type="submit" name="registration" value="Регистрация"> -->
+    
+            </div>
+        </main>
+    </form>
+
+    <section class="section">
+            <div class="pre-order">
+                <a href="">                 
+                    <!-- <div class="pre-order__img"><img src="/Data/index/preOrder.jpeg" alt=""></div> -->
+                    <div class="pre-order__description">
+                        <div class="pre-order__description--text">Предзаказ: 6-12 октября</div>
+                        <div class="pre-order__description--name">Серия Xiaomi 12T</div>
+                        <div class="pre-order__description--text">Выгода до 5000 ₽</div>
+                        <div class="pre-order__description--text">Наушники Xiaomi Buds 3 за 1 ₽</div>
+                        <div class="pre-order__btn"><button class="pre-order__button">Купить</button></div>
+                    </div>
+                    
+                </a>
+            </div>
+        
+    </section>
+
+    <section class="section">
+       
+        <div class="pre-order pr">
+            <a href="">                 
+                <!-- <div class="pre-order__img"></div> -->
+                <div class="pre-order__description">
+                    <div class="pre-order__description--name">POCO M5</div>
+                    <div class="pre-order__description--text">MediaTek Helio G99</div>
+                    <div class="pre-order__description--text">5000 мА·ч (тип.), аккумулятор</div>
+
+                    <div class="pre-order__description--text">от <b>12 999 ₽</b><s style="margin-left: 10px; color: grey;">От 14 990 ₽</s></div>
+                    <div class="pre-order__btn">
+                        <button class="pre-order__button">Купить</button>
+                        <button class="pre-order__learnmore">Узнать больше</button><i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+                
+            </a>
+        </div>
+    
+    </section>
+
+    <section class="section">
+        <div class="popular__products">
+            <div class="popular__products-item items1">
+                <a href="">
+                    <!-- <div class="popular__products__img"></div> -->
+                    <div class="popular__products__text">
+                        <div class="popular__products__title">Redmi A1+</div>
+                        <div class="popular__products__date">Старт продаж: 13.10</div>
+                        <div class="popular__products__price">6 990 ₽</div>
+                        <div class="popular__products__btn">
+                            <button class="popular__products__learnmore">Купить</button><i style="color: orangered;" class="fa-solid fa-chevron-right"></i>
+                            <button class="pre-order__learnmore">Узнать больше</button><i class="fa-solid fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="popular__products-item items2">
+                <a href="">
+                    <div class="popular__products__img"></div>
+                    <div class="popular__products__text">
+                        <div class="popular__products__title">XIAOMI Smart Band 7</div>
+                        <div class="popular__products__date">Новый уровень</div>
+                        <div class="popular__products__price">3 490 ₽</div>
+                        <div class="popular__products__btn">
+                            <button class="popular__products__learnmore">Купить</button><i style="color: orangered;" class="fa-solid fa-chevron-right"></i>
+                            <button class="pre-order__learnmore">Узнать больше</button><i class="fa-solid fa-chevron-right"></i>
+                        </div>
+                    </div>
+
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- <section class="section">
+        <div class="news-link__products">
+            <div class="news-link__products-item">
+                <a href="">
+                    <div class="news-link__products__img"></div>
+                    <div class="popular__products__text">
+                        <div class="news-link__products__title">Redmi A1+</div>
+                        <div class="popular__products__sup">Старт продаж: 13.10</div>
+                        <div class="popular__products__price">6 990 ₽</div>
+                        <div class="popular__products__btn">
+                            <button class="popular__products__learnmore">Купить</button><i style="color: orangered;" class="fa-solid fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="news-link__products-item">
+                
+                1
+            </div>
+            <div class="news-link__products-item">
+                1
+            </div>
+        </div>
+    </section> -->
+
+    <section class="section">
+        <div class="product__bord">
+            <div id="bord" class="product__bords item1">
+                <a href="">
+                <div class="popular__products__img"></div>
+                <div class="popular__products__text bord-text">
+                    <div class="popular__products__title">Все для умного дома</div>
+                    <div style="text-align: center;" class="popular__products__price">Скидки до 36 000 ₽</div>
+                    <div class="popular__products__btn">
+                        <button class="popular__products__learnmore">Купить</button><i style="color: orangered;" class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+            </a>
+            </div>
+            <div id="bord" class="product__bords item2">
+                <a href="">
+                    <div class="popular__products__img"></div>
+                    <div style="color:#fff;" class="popular__products__text bord-text">
+                        <div class="popular__products__title">Новиник этого месяца</div>
+                        <div class="popular__products__price">Узнай первым о новых устройствах<br> Xiaomi</div>
+                        <div class="popular__products__btn">
+                            <button style="color:#fff;" class="pre-order__learnmore">Узнать больше</button><i class="fa-solid fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div id="bord" class="product__bords item3">
+                <a href="">
+                    <div class="popular__products__img"></div>
+                    <div class="popular__products__text bord-text">
+                        <div class="popular__products__title">Xiaomi 12</div>
+                        <div class="popular__products__price">Мастерство в каждом кадре</div>
+                        <div class="popular__products__btn">
+                            <button class="popular__products__learnmore">Узнать больше</button><i style="color: orangered;" class="fa-solid fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="slider"></div>
+    </section>
+
+    <section class="section">
+        <div class="service">
+            <div id="ser" class="service__item1">
+                <div class="service__item-title">Сервис</div>
+                <div class="service__item-block">
+                    <div class="service__item-block--item">
+                        <center><img width="100px" height="100px" src="/Data/location.png" alt=""></center>
+                        <div class="service__btn"><button class="pre-order__learnmore ex">Сервисные центры</button><i class="fa-solid fa-chevron-right"></i></div>
+                    </div>
+                    <div class="service__item-block--item">                       
+                        <center><img width="100px" height="100px" src="/Data/crown.png" alt=""></center>
+                        <div class="service__btn"><button class="pre-order__learnmore ex">Центр Mi баллов</button><i class="fa-solid fa-chevron-right"></i></div>
+                    </div>
+                    <div class="service__item-block--item">
+                        <center><img width="100px" height="100px" src="/Data/hearts.png" alt=""></center>
+                        <div class="service__btn"><button class="pre-order__learnmore ex">Приглашайте друзей</button><i class="fa-solid fa-chevron-right"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div id="ser" class="service__item2">
+                <div class="service__item-title">ПРОГРАММА ЛОЯЛЬНОСТИ XIAOMI</div>
+                <center><button class="pre-order__learnmore">Эксклюзивыe бонусы и скидки</button><i class="fa-solid fa-chevron-right"></i></center>
+            </div>
+            <div id="ser" class="service__item3">
+                <div class="service__item-title">УСЛОВИЯ ПРОДАЖИ</div>
+            <center><button class="pre-order__learnmore">Узнать больше</button><i class="fa-solid fa-chevron-right"></i></center>
+            </div>
+        </div>
+    </section>
+
+    <!-- <script src="/Assets/js/script.js"></script> -->
+    <script src="/Assets/js/script.js"></script>
+</body>
+
+{{template "footer"}}
+
+{{ end }}

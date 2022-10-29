@@ -19,10 +19,15 @@ func main() {
 	}
 
 	handlerRequest()
+
+	http.Handle("/assets/", http.StripPrefix("/assets", http.FileServer(http.Dir(cfg.Assets))))
+	http.Handle("/data/", http.StripPrefix("/data", http.FileServer(http.Dir(cfg.Data))))
+
 	err = http.ListenAndServe(":"+cfg.ServerPort, nil)
 	if err != nil {
 		log.Fatal("Error ListenAndServe no worked ", err.Error())
 	}
+
 }
 
 // -------------------------HandleFunc-------------------------
@@ -31,9 +36,16 @@ func handlerRequest() {
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles(cfg.Html + "index.html")
+	tmpl, err := template.ParseFiles(cfg.Html+"index.html", cfg.Html+"footer.html")
 	if err != nil {
 		http.NotFound(w, r)
 	}
-	tmpl.ExecuteTemplate(w, "index", nil)
+
+	var ct categoty
+	err = ct.Select()
+	if err != nil {
+		fmt.Println("Error - main.go ct.Select()", err.Error())
+	}
+
+	tmpl.ExecuteTemplate(w, "index", ct.Rows)
 }

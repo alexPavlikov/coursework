@@ -15,21 +15,7 @@
 
 </head>
 
-<script type='text/javascript'>
-    document.addEventListener("DOMContentLoaded", () => {
-  const auth = document.getElementById("auth");
-  const main = document.getElementById("main");
-  const user = document.getElementById("user");
 
-    auth.addEventListener("click", () => {
-    main.classList.toggle("is-visible");
-    user.classList.toggle("active");
-  });
-  if(window.location.pathname == '/enter') {
-  user.classList.toggle("active");
-  }
-});
-</script>
 
 <header>
 
@@ -38,46 +24,21 @@
             <div class="intro__brand"><a href="/"><img style="border-radius: 150px;" src="/data/logo.png" alt=""></a></div>
             <div class="intro__link">
                 <a class="intro__link--item" href="/discount">Акции</a>
-                <a class="intro__link--item" href="/smartphone">Смартфоны</a>
-                <!-- <div class="dropdown">
-                    
-                    <div class="dropdown-content">
-                        <div class="drop-content-item">
-                            <a class="drop-item" href="#"><img src="/Data/logo.png" alt=""><br><span>Ссылка 1</span></a>
-                            <a class="drop-item" href="#"><img src="/Data/logo.png" alt=""><br><span>Ссылка 1</span></a>
-                            <a class="drop-item" href="#"><img src="/Data/logo.png" alt=""><br><span>Ссылка 1</span></a>
-                            <a class="drop-item" href="#"><img src="/Data/logo.png" alt=""><br><span>Ссылка 1</span></a>
-                            <a class="drop-item" href="#"><img src="/Data/logo.png" alt=""><br><span>Ссылка 1</span></a>
-                            <a class="drop-item" href="#"><img src="/Data/logo.png" alt=""><br><span>Ссылка 1</span></a>
-                        </div>                           
-                    </div>                   
-               </div> -->
+                
 
                 <div class="dropdown">
-                    <a class="intro__link--item " href="">Умный дом</a>
+                    <a class="intro__link--item " href="">Смартфоны</a>
                     <div class="dropdown-content">
                         <div class="drop-content-item">
                             {{range $_, $e := . }}
-                                <a class="drop-item" href="#"><img src="/data/logo.png" alt=""><br><span class="drop-item--name">{{ $e.Name }}</span></a>
-                                
+                                <a class="drop-item" href="#"><img src="/data/logo.png" alt=""><br><span class="drop-item--name">{{ $e.Name }}</span></a>                              
                             {{end}}
                         </div>                           
                     </div>                   
                </div>
-                                            
-                <div class="dropdown">
-                    <a class="intro__link--item " href="">Лайфстайл</a>
-                    <div class="dropdown-content">
-                        <div class="drop-content-item">
-                            <a class="drop-item" href="#"><img src="/data/logo.png" alt=""><br><span>Ссылка 1</span></a>
-                            <a class="drop-item" href="#"><img src="/data/logo.png" alt=""><br><span>Ссылка 1</span></a>
-                            <a class="drop-item" href="#"><img src="/data/logo.png" alt=""><br><span>Ссылка 1</span></a>
-                            <a class="drop-item" href="#"><img src="/data/logo.png" alt=""><br><span>Ссылка 1</span></a>
-                            <a class="drop-item" href="#"><img src="/data/logo.png" alt=""><br><span>Ссылка 1</span></a>
-                            <a class="drop-item" href="#"><img src="/data/logo.png" alt=""><br><span>Ссылка 1</span></a>
-                        </div>                           
-                    </div>                        
-                </div>           
+               <a class="intro__link--item" href="/smartphone">Периферия</a>
+               <a class="intro__link--item" href="/smartphone">Дополнительно</a>                           
+                          
             </div>
         </div>
         <div class="intro__item intro__right">
@@ -88,7 +49,7 @@
             <div class="intro__imgLink">  
                 <a class="intro__img" href=""><i class="fa-solid fa-magnifying-glass"></i></a>
                 <a class="intro__img" href=""><i class="fa-solid fa-cart-shopping"></i></a>
-                <button id="auth" class="intro__img" href=""><i id="user" class="fa-solid fa-user"></i></button><!-- onclick="authWindow()" -->
+                <button  id="auth" class="intro__img" href=""><i onclick="authWindow()" id="user" class="fa-solid fa-user"></i></button><!-- onclick="authWindow()" -->
             </div>
         </div>
     </div>
@@ -109,21 +70,17 @@
 
 <body>
 
-    <form action="" method="post">
-        <main id="main">
+    <!-- <form action="" method="post"> -->
+        <!-- <main id="main">
             <label for="">Добро пожаловать!</label>
             <input name="login" id="userLog" type="text" placeholder="Введите ваш логин">
             <input name="password" id="userPass" type="password" placeholder="Введите ваш пароль">
             <div class="b_list">
                 <button name="enter" formaction="/enter" class="pre-order__button">Войти</button>
                 <button name="registration" formaction="/registration" class="pre-order__button">Регистрация</button>
-    
-                <!-- <input  type="submit" name="enter" value="Войти">
-                <input type="submit" name="registration" value="Регистрация"> -->
-    
             </div>
-        </main>
-    </form>
+        </main> -->
+    <!-- </form> -->
 
     <section class="section">
             <div class="pre-order">
@@ -274,15 +231,15 @@
                 <div class="service__item-title">Сервис</div>
                 <div class="service__item-block">
                     <div class="service__item-block--item">
-                        <center><img width="100px" height="100px" src="/Data/location.png" alt=""></center>
+                        <center><img width="100px" height="100px" src="/data/location.png" alt=""></center>
                         <div class="service__btn"><button class="pre-order__learnmore ex">Сервисные центры</button><i class="fa-solid fa-chevron-right"></i></div>
                     </div>
                     <div class="service__item-block--item">                       
-                        <center><img width="100px" height="100px" src="/Data/crown.png" alt=""></center>
+                        <center><img width="100px" height="100px" src="/data/crown.png" alt=""></center>
                         <div class="service__btn"><button class="pre-order__learnmore ex">Центр Mi баллов</button><i class="fa-solid fa-chevron-right"></i></div>
                     </div>
                     <div class="service__item-block--item">
-                        <center><img width="100px" height="100px" src="/Data/hearts.png" alt=""></center>
+                        <center><img width="100px" height="100px" src="/data/hearts.png" alt=""></center>
                         <div class="service__btn"><button class="pre-order__learnmore ex">Приглашайте друзей</button><i class="fa-solid fa-chevron-right"></i></div>
                     </div>
                 </div>
@@ -299,7 +256,9 @@
     </section>
 
     <!-- <script src="/Assets/js/script.js"></script> -->
-    <script src="/Assets/js/script.js"></script>
+    
+    <script src="/assets/js/script.js"></script>
+
 </body>
 
 {{template "footer"}}

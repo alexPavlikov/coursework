@@ -1,6 +1,6 @@
 @font-face {
     font-family: Montserrat;
-    src: url(/Assets/fonts/Montserrat-Regular.ttf);
+    src: url(/assets/fonts/Montserrat-Regular.ttf);
 }
 
 body {
@@ -1151,11 +1151,23 @@ footer {
 
 
 /*auth main*/
-main {
+
+.bgPage {
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: #19191940;
+}
+
+
+.bgPage main {
     
     position: fixed;
-    top: 63px;
-    right: 10px;
+    top: 40%;
+    right: 40%;
     width: 250px;
     background-color: #fff;
     padding: 30px 50px;
@@ -1164,52 +1176,72 @@ main {
     border-radius: 15px;
     font-size: 18px;
     /* display: none; */
-    display: none;
+    /* display: block; */
     text-align: center;
     
 }
 
-/* .main {
+.bgPage main .fa-times {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #191919;
+}
+
+.bgPage main .fa-times:hover {
+    cursor: pointer;
+    color: red;
+}
+
+.bgPage main .fa-times:active {
+    opacity: .6;
+}
+ /* .main {
     display: none;
 } */
 
-#main.is-visible {
-    display: block;
+.bgPage #main.is-visible {
+    display: none;
 }
 
-main label {
+.bgPage main label {
     width: 100%;
     padding: 3px;   
-    font-weight: 700;
-    
+    font-weight: 700;    
 }
 
-main input {
+.bgPage main input {
     width: 100%;
-    padding: 3px 0;
+    padding: 3px 5px;
     font-size: 18px;
     margin: 10px 0 15px 0;
-    outline: none;
+    outline: 1px solid #191919;
+    border: none;
     font-family: Montserrat;
 }
 
-.b_list {
+.bgPage main .b_list {
     display: flex;
     flex-direction: row;
     width: 100%;
 }
 
-.b_list .pre-order__button {
+.bgPage main .b_list .pre-order__button {
     width: 50%;
     font-size: 16px;
     padding: 7px;
     margin-right: 10px;
 }
 
-.b_list .pre-order__button:last-child {
+.bgPage main .b_list .pre-order__button:last-child {
     margin-right: 0px;
 }
 
+.incorrect {
+    outline: 2px solid red !important;
+    background-color: rgba(255, 0, 0, 0.300) !important;
+    color: red !important;
+}
 
 /* <main id="main">
     <label for="">Добро пожаловать!</label>

@@ -186,6 +186,7 @@ h1,h2,h3,h4,h5,h6 {
     border-radius: 10px;
     padding: 8px 25px;
     transition: opacity .1s linear;
+    
 }
 
 .white {
@@ -1224,6 +1225,7 @@ footer {
     display: flex;
     flex-direction: row;
     width: 100%;
+    
 }
 
 .bgPage main .b_list .pre-order__button {
@@ -1231,10 +1233,14 @@ footer {
     font-size: 16px;
     padding: 7px;
     margin-right: 10px;
+
 }
+
 
 .bgPage main .b_list .pre-order__button:last-child {
     margin-right: 0px;
+    text-decoration: none;
+   
 }
 
 .incorrect {
@@ -1242,6 +1248,7 @@ footer {
     background-color: rgba(255, 0, 0, 0.300) !important;
     color: red !important;
 }
+
 
 /* <main id="main">
     <label for="">Добро пожаловать!</label>
@@ -1254,3 +1261,20 @@ footer {
         <button class="pre-order__button">Регистрация</button>
     </div>
 </main> */
+.dialWin {
+    position: absolute;
+    right: 35%;
+    left: 35%;
+    width: 30%;
+    top: 0;
+    z-index: 1000;
+    background-color: #fff;
+    color: #191919;
+    
+}
+
+.dialWin label {
+    font-size: 20px;
+    text-align: center;
+    font-weight: 600;
+}

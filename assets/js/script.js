@@ -55,9 +55,16 @@ function authWindow() {
     enter.formAction = "/login";
     enter.onclick = Login.bind(enter, login, password);
 
-    let registration = document.createElement("button");
+
+    if(enter==true) {
+        dialogWindow();
+    }
+
+
+    let registration = document.createElement("a");
     registration.textContent = "Регистрация";
     registration.className = "pre-order__button";
+    registration.href = "/registration";
 
     let bgPage = document.createElement("div");
     bgPage.className = "bgPage";
@@ -78,7 +85,7 @@ function Login(log, pass) {
 
     let isCorrect = true;
 
-    if(!log || log.value.length !== 10) {
+    if(!log || log.value.length < 10) {
         log.classList.add("incorrect");
         log.oninput = ClearIncorrect;
         isCorrect = false;
@@ -108,4 +115,25 @@ function Login(log, pass) {
 function ClearIncorrect() {
     this.classList.remove("incorrect");
     this,oninput = undefined;
+}
+
+
+function dialogWindow() {
+    let dialog =  document.createElement("div");
+    dialog.className = "dialWin";
+    dialog.id = "dialWin";
+
+    let err = document.createElement("lable");
+    err.textContent = `Такого пользователя не существует.
+                            Проверьте логин/пароль`;
+
+    let close = document.createElement("button");
+    close.textContent = "Закрыть";
+    close.className = "pre-order__button";
+    close.formAction = "/logerr";
+
+
+    dialog.append(err, close);
+    document.body.append(dialog);
+
 }

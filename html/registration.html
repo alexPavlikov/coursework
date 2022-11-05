@@ -1,0 +1,86 @@
+{{ define "registr"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/assets/css/support.css">
+    
+    <link rel="stylesheet" href="/assets/css/awesome/css/all.css" />
+
+    <title>Окно регистрации</title>
+</head>
+
+<header>
+
+    <div class="intro">
+        <div class="intro__item">
+            <div class="intro__brand"><a href="/"><img style="border-radius: 150px;" src="/data/logo.png" alt=""></a></div>
+            <div class="intro__link">
+                <a class="intro__link--item" href="/discount">Акции</a>
+                
+
+                <div class="dropdown">
+                    <a class="intro__link--item " href="">Смартфоны</a>
+                    <div class="dropdown-content">
+                        <div class="drop-content-item">
+                            {{range $_, $e := .Rows }}
+                                <a class="drop-item" href="#"><img src="/data/logo.png" alt=""><br><span class="drop-item--name">{{ $e.Name }}</span></a>                              
+                            {{end}}
+                        </div>                           
+                    </div>                   
+               </div>
+               <a class="intro__link--item" href="/smartphone">Периферия</a>
+               <a class="intro__link--item" href="/smartphone">Дополнительно</a>                           
+                          
+            </div>
+        </div>
+        <div class="intro__item intro__right">
+            <div class="intro__link">
+                <a class="intro__link--item" href="">Блог</a>
+                <a class="intro__link--item" href="">Все товары</a>
+            </div>
+            <div class="intro__imgLink">  
+                <a class="intro__img" href=""><i class="fa-solid fa-magnifying-glass"></i></a>
+                <a class="intro__img" href=""><i class="fa-solid fa-cart-shopping"></i></a>
+                <button  id="auth" class="intro__img" href=""><i onclick="authWindow()" id="user" class="fa-solid fa-user">
+                <!-- {{ if ne .Men "" }}
+                <i class="user_name ">{{ .Name }}</i>
+                {{ end }} -->
+                </i></button><!-- onclick="authWindow()" fas fa-plus -->
+                
+            </div>
+        </div>
+    </div>
+
+    {{ if eq .Role "true" }}
+        <i class="fas fa-plus"></i>
+    {{ end }}
+   
+</header>
+
+<body>
+    
+    <section class="section">
+        <div class="registration">
+            
+            <div>Регистрация</div>
+            <form method="POST" action="regHandlerPost">
+                <input id="email" placeholder="Введите адрес e-mail" name="email" type="text">
+                <input id="pass1" placeholder="Введите пароль" name="pass1" type="password">
+                <input id="pass2" placeholder="Введите пароль повторно" name="pass2" type="password">
+                <input id="name" placeholder="Введите имя" name="name" type="text">
+
+                <button type="submit">Зарегистрироваться</button>
+            </form>
+        </div>
+    </section>
+
+</body>
+
+
+{{ template "footer" }}
+
+{{ end }}

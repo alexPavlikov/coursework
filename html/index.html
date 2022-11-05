@@ -30,7 +30,7 @@
                     <a class="intro__link--item " href="">Смартфоны</a>
                     <div class="dropdown-content">
                         <div class="drop-content-item">
-                            {{range $_, $e := . }}
+                            {{range $_, $e := .Rows }}
                                 <a class="drop-item" href="#"><img src="/data/logo.png" alt=""><br><span class="drop-item--name">{{ $e.Name }}</span></a>                              
                             {{end}}
                         </div>                           
@@ -49,15 +49,22 @@
             <div class="intro__imgLink">  
                 <a class="intro__img" href=""><i class="fa-solid fa-magnifying-glass"></i></a>
                 <a class="intro__img" href=""><i class="fa-solid fa-cart-shopping"></i></a>
-                <button  id="auth" class="intro__img" href=""><i onclick="authWindow()" id="user" class="fa-solid fa-user"></i></button><!-- onclick="authWindow()" -->
+                <button  id="auth" class="intro__img" href=""><i onclick="authWindow()" id="user" class="fa-solid fa-user">
+                <!-- {{ if ne .Men "" }}
+                <i class="user_name ">{{ .Name }}</i>
+                {{ end }} -->
+                </i></button><!-- onclick="authWindow()" fas fa-plus -->
+                
             </div>
         </div>
     </div>
 
-    
+    {{ if eq .Role "true" }}
+        <i class="fas fa-plus"></i>
+    {{ end }}
    
 </header>
-
+    
 <!-- <main id="main">
     <label for="">Добро пожаловать!</label>
     <input id="userLog" type="text" placeholder="Введите ваш логин">
@@ -84,7 +91,7 @@
 
     <section class="section">
             <div class="pre-order">
-                <a href="">                 
+                <a href="">                
                     <!-- <div class="pre-order__img"><img src="/Data/index/preOrder.jpeg" alt=""></div> -->
                     <div class="pre-order__description">
                         <div class="pre-order__description--text">Предзаказ: 6-12 октября</div>
@@ -255,9 +262,9 @@
         </div>
     </section>
 
-    <!-- <script src="/Assets/js/script.js"></script> -->
-    
+    <!-- <script src="/Assets/js/script.js"></script>  -->
     <script src="/assets/js/script.js"></script>
+
 
 </body>
 

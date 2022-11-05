@@ -1,0 +1,73 @@
+@font-face {
+    font-family: Montserrat;
+    src: url(/assets/fonts/Montserrat-Regular.ttf);
+}
+
+body {
+    font-family: Montserrat;
+    margin: 0;
+    font-size: 15px;
+    color: rgb(32, 32, 32);
+    line-height: 1.6;
+    background-color: #f7f7f7;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    margin: 0;
+}
+
+.section {
+    width: 100%;
+    padding-top: 120px;
+}
+
+.registration {
+    background-color:rgb(255, 124, 36);
+
+    width: 40%;
+    margin: 0 30%;
+    
+    height: 530px;
+    /* filter: drop-shadow(10px 8px 120px rgba(0, 0, 0, 0.250)); */
+    box-shadow: 20px -15px 10px 5px rgba(0, 0, 0, .2);
+    margin-bottom: 50px;
+}
+
+.registration div {
+    color: #fff;
+    text-align: center;
+    width: 100%;
+    font-size: 34px;
+    padding: 20px 0;
+    font-weight: 700;
+}
+
+.registration input {
+    width: 75%;
+    margin: 15px 10%;
+    padding: 10px 15px;
+    font-size: 20px;
+    border: 2px solid transparent;
+}
+
+.registration button {
+    background-color: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+    font-size: 24px;
+    border-radius: 15px;
+    padding: 10px 15px;
+    text-align: center;
+    margin: 30px 32%;
+    transition: all .2s linear;
+}
+
+.registration button:hover {
+    cursor: pointer;
+    color:rgb(255, 124, 36);
+    background-color: #fff;
+}
+
+.registration button:active {
+    opacity: .6;
+}

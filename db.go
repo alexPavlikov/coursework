@@ -31,6 +31,16 @@ type user struct {
 	Rows []user
 }
 
+type post struct {
+	Id    int
+	Image string
+	Title string
+	Text  string
+	Data  string
+
+	Rows []post
+}
+
 var (
 	db      *sql.DB
 	err     error
@@ -61,13 +71,20 @@ func prepareQueries() {
 		fmt.Println("Ошибка запроса Select#User ")
 	}
 
+	Queries["Select#Users"], err = db.Prepare(`SELECT * FROM "Users"`)
+	if err != nil {
+		fmt.Println("Ошибка запроса Select#Users ")
+	}
+
 	Queries["Select#Manager"], err = db.Prepare(`SELECT "Name", "Role" FROM "Manager" WHERE "Email"=$1 AND "Password"=$2`)
 	if err != nil {
 		fmt.Println("Ошибка запроса Select#Manager ")
 	}
 
-	// data := fmt.Sprintf(`INSERT INTO "Users" (Email, Password, Name) VALUES (%s, %s, %s)`, us.email, us.password, us.name)
-	// fmt.Println(data)
+	Queries["Select#Posts"], err = db.Prepare(`SELECT * FROM "Posts"`)
+	if err != nil {
+		fmt.Println("Ошибка запроса Select#Posts ")
+	}
 
 }
 
@@ -77,6 +94,8 @@ func (ct *categoty) Select() error {
 		err = errors.New("db.go Select() - Select#Category")
 		return err
 	}
+	// defer stmt.Close()
+
 	rows, err := stmt.Query()
 	if err != nil {
 		return err
@@ -100,12 +119,14 @@ func (m *manager) Select() error {
 		err = errors.New("db.go Select() - Select#User")
 		return err
 	}
+	// defer stmtUser.Close()
 
 	stmtManager, ok := Queries["Select#Manager"]
 	if !ok {
 		err = errors.New("db.go Select() - Select#Manager")
 		return err
 	}
+	// defer stmtManager.Close()
 
 	r := stmtUser.QueryRow(m.Login, m.Password)
 
@@ -124,30 +145,38 @@ func (m *manager) Select() error {
 	return nil
 }
 
-// func (us *user) Insert() error {
+func (posts *post) Select() error {
+	stmtPost, ok := Queries["Select#Posts"]
+	if !ok {
+		err = errors.New("db.go Select() - Select#Posts")
+		return err
+	}
+	// defer stmtPost.Close()
 
-// 	Queries["Insert#Users"], err = db.Prepare(`INSERT INTO "Users" (Email, Password, Name) VALUES ($1, $2, $3)`)
-// 	if err != nil {
-// 		fmt.Println("Ошибка запроса Insert#Users ")
-// 	}
+	rows := stmtPost.QueryRow()
+	if err != nil {
+		return err
+	}
 
-// 	stmtUsers, ok := Queries["Insert#Users"]
-// 	if !ok {
-// 		err = errors.New("db.go Insert() - Insert#Users")
-// 		return err
-// 	}
+	err := rows.Scan(&posts.Id, &posts.Image, &posts.Title, &posts.Text, &posts.Data)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 
-// 	_, er := stmtUsers.Exec(us.email, us.password, us.name)
-// 	if er != nil {
-// 		return err
-// 	}
+	// for rows.Next() {
+	// 	err = rows.Scan(&posts.Image)
+	// 	if err != nil {
+	// 		fmt.Println("Error - Scan", err.Error())
+	// 	}
 
-// 	return nil
-// }
+	// 	posts.Rows = append(posts.Rows, post{Image: posts.Image})
+	// }
 
-// INSERT INTO "Users"("Email", "Password", "Name") VALUES ('dl.donnu@gmail.com', 'idonotknow', 'University')
+	return nil
+}
 
-func insert(db *sql.DB, us user) error {
+// Users insert in database
+func insertUsers(db *sql.DB, us user) error {
 	query := `INSERT INTO "Users"("Email", "Password", "Name") VALUES ($1, $2, $3)`
 	ctx, cancelfunc := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancelfunc()
@@ -169,4 +198,62 @@ func insert(db *sql.DB, us user) error {
 	}
 	log.Printf("%d products created ", rows)
 	return nil
+}
+
+// Post insert in database
+func insertPosts(db *sql.DB, p post) error {
+	query := `INSERT INTO "Posts"("Image", "Title", "Text", "Data") VALUES ($1, $2, $3, $4)`
+	ctx, cancelfunc := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancelfunc()
+	stmt, err := db.PrepareContext(ctx, query)
+	if err != nil {
+		log.Printf("Error %s when preparing SQL statement", err)
+		return err
+	}
+	defer stmt.Close()
+	res, err := stmt.ExecContext(ctx, p.Image, p.Title, p.Text, p.Data)
+	if err != nil {
+		log.Printf("Error %s when inserting row into products table", err)
+		return err
+	}
+	rows, err := res.RowsAffected()
+	if err != nil {
+		log.Printf("Error %s when finding rows affected", err)
+		return err
+	}
+	log.Printf("%d products created ", rows)
+	return nil
+}
+
+func dbSelect() []user {
+	rows, err := db.Query(`SELECT * FROM "Users"`)
+	if err != nil {
+		fmt.Println("Error = dbSelect() db.go")
+		panic(err)
+	}
+
+	// rows, ok := Queries["Select#Users"]
+	// if !ok {
+	// 	err = errors.New("db.go Select() - Select#User")
+	// 	return err
+	// }
+
+	employee := user{}
+	employees := []user{}
+
+	for rows.Next() {
+		var name, pass, email string
+		err = rows.Scan(&email, &name, &pass)
+		if err != nil {
+			fmt.Println("Error = dbSelect() rows.Next()  db.go")
+			panic(err)
+		}
+		employee.Email = email
+		employee.Name = name
+		employee.Password = pass
+		employees = append(employees, employee)
+
+	}
+	// defer db.Close()
+	return employees
 }

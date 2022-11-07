@@ -23,7 +23,7 @@
                 
 
                 <div class="dropdown">
-                    <a class="intro__link--item " href="">Смартфоны</a>
+                    <a class="intro__link--item " href="/smartphone">Смартфоны</a>
                     <div class="dropdown-content">
                         <div class="drop-content-item">
                             {{range $_, $e := .Rows }}
@@ -32,15 +32,15 @@
                         </div>                           
                     </div>                   
                </div>
-               <a class="intro__link--item" href="/smartphone">Периферия</a>
-               <a class="intro__link--item" href="/smartphone">Дополнительно</a>                           
+               <a class="intro__link--item" href="/periphery">Периферия</a>
+               <a class="intro__link--item" href="">Дополнительно</a>                           
                           
             </div>
         </div>
         <div class="intro__item intro__right">
             <div class="intro__link">
                 <a class="intro__link--item" href="">Блог</a>
-                <a class="intro__link--item" href="">Все товары</a>
+                <a class="intro__link--item" href="/brandphone">Все товары</a>
             </div>
             <div class="intro__imgLink">  
                 <a class="intro__img" href=""><i class="fa-solid fa-magnifying-glass"></i></a>
@@ -67,7 +67,7 @@
         <div class="registration">
             
             <div>Регистрация</div>
-            <form method="POST" action="regHandlerPost">
+            <form method="POST" action="/regHandlerPost">
                 <input id="email" placeholder="Введите адрес e-mail" name="email" type="text">
                 <input id="pass1" placeholder="Введите пароль" name="pass1" type="password">
                 <input id="pass2" placeholder="Введите пароль повторно" name="pass2" type="password">
@@ -77,6 +77,9 @@
             </form>
         </div>
     </section>
+
+    <script src="/assets/js/admin.js"></script>
+    <script src="/assets/js/script.js"></script>
 
 </body>
 

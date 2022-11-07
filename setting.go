@@ -18,6 +18,7 @@ type Setting struct {
 	Data       string
 	Assets     string
 	Html       string
+	Email      string
 }
 
 var cfg Setting

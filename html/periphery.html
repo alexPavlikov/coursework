@@ -1,0 +1,237 @@
+{{ define "periphery" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/assets/css/style.css">
+    
+    <link rel="stylesheet" href="/assets/css/awesome/css/all.css" />
+
+    <title>Периферия</title>
+</head>
+
+<header>
+
+    <div class="intro">
+        <div class="intro__item">
+            <div class="intro__brand"><a href="/"><img style="border-radius: 150px;" src="/data/logo.png" alt=""></a></div>
+            <div class="intro__link">
+                <a class="intro__link--item" href="/discount">Акции</a>
+                
+
+                <div class="dropdown">
+                    <a class="intro__link--item" href="/smartphone">Смартфоны</a>
+                    <div class="dropdown-content">
+                        <div class="drop-content-item">
+                            {{range $_, $e := .Rows }}
+                                <a class="drop-item" href="#"><img src="/data/logo.png" alt=""><br><span class="drop-item--name">{{ $e.Name }}</span></a>                              
+                            {{end}}
+                        </div>                           
+                    </div>                   
+               </div>
+               <a class="intro__link--item active" href="/periphery">Периферия</a>
+               <a class="intro__link--item" href="/advance">Дополнительно</a>                                                   
+            </div>
+        </div>
+        <div class="intro__item intro__right">
+            <div class="intro__link">
+                <a class="intro__link--item" href="">Блог</a>
+                <a class="intro__link--item" href="/brandphone">Все товары</a>
+            </div>
+            <div class="intro__imgLink">  
+                <a class="intro__img" href=""><i class="fa-solid fa-magnifying-glass"></i></a>
+                <a class="intro__img" href=""><i class="fa-solid fa-cart-shopping"></i></a>
+                <button  id="auth" class="intro__img" href=""><i onclick="authWindow()" id="user" class="fa-solid fa-user">
+                <!-- {{ if ne .Men "" }}
+                <i class="user_name ">{{ .Name }}</i>
+                {{ end }} -->
+                </i></button><!-- onclick="authWindow()" fas fa-plus -->
+                
+            </div>
+        </div>
+    </div>
+
+    {{ if eq .Role "true" }}
+        <i class="fas fa-plus"></i>
+    {{ end }}
+   
+</header>
+
+<body>
+
+<div class="section">
+    <div class="container">
+        <div class="smart-part">
+            <div class="title">Беспроводные наушники</div>
+            <form action="/smartphone/brand"><button  class="part-btn">Узнать больше</button></form>
+        </div>
+    </div>
+</div>
+
+<section class="section">
+       
+    <div class="pre-order pr">
+        <a href="">                 
+            <!-- <div class="pre-order__img"></div> -->
+            <div class="pre-order__description">
+                <div class="pre-order__description--name">POCO M5</div>
+                <div class="pre-order__description--text">MediaTek Helio G99</div>
+                <div class="pre-order__description--text">5000 мА·ч (тип.), аккумулятор</div>
+
+                <div class="pre-order__description--text">от <b>12 999 ₽</b><s style="margin-left: 10px; color: grey;">От 14 990 ₽</s></div>
+                <div class="pre-order__btn">
+                    <button class="pre-order__button">Купить</button>
+                    <button class="pre-order__learnmore">Подробнее</button><i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </div>
+            
+        </a>
+    </div>
+
+</section>
+
+<section class="section">
+    <div class="brandStand">
+        <div class="item">
+            <div class="item-content">
+                <div class="discount">Скидка 13%</div>
+                <div class="title">Xiaomi 12</div>
+                <div class="store-week_Price">
+                    <div class="store-week_newPrice">52 990</div>
+                    <div class="store-week_oldPrice">55 990</div>
+                </div>
+                <div class="butn">
+                    <button class="pre-order__button">Купить</button>
+                    <button class="pre-order__button white">Подробнее</button>
+                </div>
+            </div>
+            <div class="item-img"><img src="/data/discount/storeWeek1.jpeg" alt=""></div>
+        </div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+    </div>
+</section>
+
+<div class="section">
+    <div class="container">
+        <div class="smart-part">
+            <div class="title">Умные часы</div>
+            <button class="part-btn">Узнать больше</button>
+        </div>
+    </div>
+</div>
+
+<section class="section">
+       
+    <div class="pre-order pr">
+        <a href="">                 
+            <!-- <div class="pre-order__img"></div> -->
+            <div class="pre-order__description">
+                <div class="pre-order__description--name">POCO M5</div>
+                <div class="pre-order__description--text">MediaTek Helio G99</div>
+                <div class="pre-order__description--text">5000 мА·ч (тип.), аккумулятор</div>
+
+                <div class="pre-order__description--text">от <b>12 999 ₽</b><s style="margin-left: 10px; color: grey;">От 14 990 ₽</s></div>
+                <div class="pre-order__btn">
+                    <button class="pre-order__button">Купить</button>
+                    <button class="pre-order__learnmore">Подробнее</button><i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </div>
+            
+        </a>
+    </div>
+
+</section>
+
+<section class="section">
+    <div class="brandStand">
+        <div class="item">
+            <div class="item-content">
+                <div class="discount">Скидка 13%</div>
+                <div class="title">Xiaomi 12</div>
+                <div class="store-week_Price">
+                    <div class="store-week_newPrice">52 990</div>
+                    <div class="store-week_oldPrice">55 990</div>
+                </div>
+                <div class="butn">
+                    <button class="pre-order__button">Купить</button>
+                    <button class="pre-order__button white">Подробнее</button>
+                </div>
+            </div>
+            <div class="item-img"><img src="/data/discount/storeWeek1.jpeg" alt=""></div>
+        </div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+        <div class="item">4</div>
+    </div>
+</section>
+
+<div class="section">
+    <div class="container">
+        <div class="smart-part">
+            <div class="title">Bluetooth колонки</div>
+            <button class="part-btn">Узнать больше</button>
+        </div>
+    </div>
+</div>
+
+<section class="section">
+       
+    <div class="pre-order pr">
+        <a href="">                 
+            <!-- <div class="pre-order__img"></div> -->
+            <div class="pre-order__description">
+                <div class="pre-order__description--name">POCO M5</div>
+                <div class="pre-order__description--text">MediaTek Helio G99</div>
+                <div class="pre-order__description--text">5000 мА·ч (тип.), аккумулятор</div>
+
+                <div class="pre-order__description--text">от <b>12 999 ₽</b><s style="margin-left: 10px; color: grey;">От 14 990 ₽</s></div>
+                <div class="pre-order__btn">
+                    <button class="pre-order__button">Купить</button>
+                    <button class="pre-order__learnmore">Подробнее</button><i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </div>
+            
+        </a>
+    </div>
+
+</section>
+    
+<section class="section">
+    <div class="brandStand">
+        <div class="item">
+            <div class="item-content">
+                <div class="discount">Скидка 13%</div>
+                <div class="title">Xiaomi 12</div>
+                <div class="store-week_Price">
+                    <div class="store-week_newPrice">52 990</div>
+                    <div class="store-week_oldPrice">55 990</div>
+                </div>
+                <div class="butn">
+                    <button class="pre-order__button">Купить</button>
+                    <button class="pre-order__button white">Подробнее</button>
+                </div>
+            </div>
+            <div class="item-img"><img src="/data/discount/storeWeek1.jpeg" alt=""></div>
+        </div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+    </div>
+</section>
+
+    <script src="/assets/js/script.js"></script>
+</body>
+
+{{template "footer"}}
+
+{{ end }}

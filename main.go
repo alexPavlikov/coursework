@@ -11,6 +11,7 @@ import (
 )
 
 var m manager
+var posts post
 
 func main() {
 	fmt.Println("Listen on - " + cfg.ServerHost + ":" + cfg.ServerPort)
@@ -39,6 +40,13 @@ func handlerRequest() {
 	http.HandleFunc("/login", loginHandler)
 	http.HandleFunc("/registration", regHandler)
 	http.HandleFunc("/regHandlerPost", regHandlerPost)
+	http.HandleFunc("/brandphone", brandHandler)
+	http.HandleFunc("/discount", discountHandler)
+	http.HandleFunc("/smartphone", smartphoneHandler)
+	http.HandleFunc("/periphery", peripheryHandler)
+	http.HandleFunc("/blog", blogHandler)
+	http.HandleFunc("/blog/createPost", createPostHandler)
+	http.HandleFunc("/admin", dbTableHandler)
 
 }
 
@@ -97,6 +105,7 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 	// if m.Name != "" {
 	// men := map[string]interface{}{"Men": m.Name}
 	tmpl.ExecuteTemplate(w, "index", nil)
+
 	// http.Redirect(w, nil, "/", 200)
 	// 	//struct{ Men string }{Men: m.Name}
 	// }
@@ -116,6 +125,9 @@ func regHandler(w http.ResponseWriter, r *http.Request) {
 func regHandlerPost(w http.ResponseWriter, r *http.Request) {
 
 	var us user
+
+	fmt.Println(us.Rows)
+
 	us.Email = r.FormValue("email")
 	us.Password = r.FormValue("pass1")
 	checkpass := r.FormValue("pass2")
@@ -138,13 +150,117 @@ func regHandlerPost(w http.ResponseWriter, r *http.Request) {
 	if us.Password != checkpass {
 		fmt.Fprintf(w, "Пароли не соответствуют друг другу - %s и %s", us.Password, checkpass)
 	}
+	err = insertUsers(db, us)
+	if err != nil {
+		log.Printf("Insert product failed with error %s", err)
+		return
+	} else {
+		err = send(us.Email, us.Password, us.Name)
+		if err != nil {
+			fmt.Println("Error - send email message", err)
+		}
+	}
 
-	err = insert(db, us)
+	// http.Redirect(w, r, "/", 200)
+}
+
+func brandHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles(cfg.Html+"brandphone.html", cfg.Html+"footer.html")
+	if err != nil {
+		http.NotFound(w, r)
+	}
+
+	tmpl.ExecuteTemplate(w, "brandphone", nil)
+}
+
+func smartphoneHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles(cfg.Html+"smartphone.html", cfg.Html+"footer.html")
+	if err != nil {
+		http.NotFound(w, r)
+	}
+
+	tmpl.ExecuteTemplate(w, "smartphone", nil)
+}
+
+func discountHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles(cfg.Html+"discount.html", cfg.Html+"footer.html")
+	if err != nil {
+		http.NotFound(w, r)
+	}
+
+	tmpl.ExecuteTemplate(w, "discount", nil)
+}
+
+func peripheryHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles(cfg.Html+"periphery.html", cfg.Html+"footer.html")
+	if err != nil {
+		http.NotFound(w, r)
+	}
+
+	tmpl.ExecuteTemplate(w, "periphery", nil)
+}
+
+func createPostHandler(w http.ResponseWriter, r *http.Request) {
+	var p post
+	p.Image = r.FormValue("Image")
+	p.Title = r.FormValue("Title")
+	p.Text = r.FormValue("Text")
+	data := "Nov 7 2022"
+	p.Data = data
+
+	fmt.Println(p.Image, p.Title, p.Text, p.Data)
+
+	if p.Image == "" {
+		fmt.Fprint(w, "Не указали изображение")
+		if p.Title == "" {
+			fmt.Fprint(w, "Не указали заголовок поста")
+			if p.Text == "" {
+				fmt.Fprint(w, "Не указали текст поста")
+			}
+		}
+	}
+
+	err = insertPosts(db, posts)
 	if err != nil {
 		log.Printf("Insert product failed with error %s", err)
 		return
 	}
+}
 
-	http.Redirect(w, r, "/", 200)
-	// fmt.Fprintf(w, "Email: %s Password: %s  Pass: %s Name: %s", email, password, checkpass, name)
+func blogHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles(cfg.Html+"blog.html", cfg.Html+"footer.html")
+	if err != nil {
+		http.NotFound(w, r)
+	}
+
+	// var posts post
+	err = posts.Select()
+
+	if err != nil {
+		fmt.Println("Error - main.go posts.Select()", err.Error())
+	}
+
+	// drop := map[string]interface{}{"PostDrop": posts.Text}
+	// ttl := map[string]interface{}{"Rows": posts.Rows}
+
+	tmpl.ExecuteTemplate(w, "blog", nil)
+}
+
+/* доделать отправку данных поста на форму*/
+
+func dbTableHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles(cfg.Html+"userList.html", cfg.Html+"footer.html")
+	if err != nil {
+		http.NotFound(w, r)
+	}
+	table := dbSelect()
+	tmpl.ExecuteTemplate(w, "user", table)
+}
+
+func dbTable(w http.ResponseWriter, r *http.Request) {
+	table := dbSelect()
+	for i := range table {
+		emp := table[i]
+		fmt.Fprintf(w, "YESS|%12s|%12s|%12s|\n", emp.Email, emp.Name, emp.Password)
+	}
 }

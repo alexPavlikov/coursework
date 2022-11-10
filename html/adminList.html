@@ -1,0 +1,78 @@
+{{ define "admin" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <link rel="stylesheet" href="/assets/css/support.css">
+
+    <link rel="stylesheet" href="/assets/css/admin.css">
+
+    <link rel="stylesheet" href="/assets/css/awesome/css/all.css" />
+
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <admin class="admin">
+        <div onclick="createAdminAdd()" class="admin-btn"><i class="fas fa-plus"></i></div>
+        <div style="opacity: .4; pointer-events: none; cursor: default;" onclick="" class="admin-btn"><i class="fa-solid fa-trash"></i></div>
+        <a style="opacity: .4; pointer-events: none; cursor: default;" href="/adminList" class="admin-btn"><i class="fa-solid fa-lock"></i></a>
+
+        <a href="/admin" class="admin-btn"><i class="fa-solid fa-turn-down"></i></a>
+    </admin>
+    
+
+    <div class="bgPage blog" >
+        <div class="admin-add-adm">
+            <form action="man">
+                <label for="">Форма добавления администратора</label>
+                <input name="Email" id="Email" type="text" placeholder="Введите Email администратора">
+                <input name="Password" id="Password" type="text" placeholder="Введите пароль администратора">
+                <input name="Name" id="Name" type="text" placeholder="Введите имя администратора">
+                <button type="submit" class="pre-order__button">Добавить</button>
+            </form>
+        </div>
+    </div>
+
+   
+
+
+    <h1>Список администраторов</h1> 
+    {{ $length := len . }}
+    <h3>Общее кол-во администраторов {{$length}}</h3> 
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Имя администратора</th>
+                <th>Роль</th>
+                <th>Пароль</th>
+                
+            </tr>
+        </thead> 
+    <tbody>
+        {{ range . }}
+        <tr>
+            <td>{{ .Login }}</td>
+            <td>{{ .Name }} </td>
+            <td>{{ .Role }} </td>
+            <td>{{ .Password }}</td>
+            
+        </tr>
+        {{ end }}
+    </tbody>
+    </table>
+
+    <script src="/assets/js/admin.js"></script>
+    <script src="/assets/js/script.js"></script>
+
+</body>
+
+{{ end }}

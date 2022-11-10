@@ -1,0 +1,63 @@
+{{ define "addPurchase"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/assets/css/support.css">
+    
+    <link rel="stylesheet" href="/assets/css/awesome/css/all.css" />
+
+    <title>Окно регистрации</title>
+</head>
+{{ template "header" }}
+
+
+
+<body>
+
+    <section class="section">
+        <div class="registration">
+            
+            <div>Оформление покупки</div>
+
+                <form action="#" method="post" action="">
+                    <!-- <div> -->
+                        
+                        <select id="selectuser" onChange="OnDropDownChange(this);">
+                            {{range $_, $e := .User }} 
+                            <option id="iptuser">{{ $e.Email }}</option>
+                            {{ end }}                                                    
+                        </select>
+                    <!-- </div> -->
+                    
+                    <select id="selectproduct">
+                        {{range $_, $c := .Product }}
+                        <option id="iptproduct">{{ $c.Article }}</option>
+                        {{ end }}                                                    
+                    </select>
+                    
+                    <input min="1" id="count" placeholder="Кол-во покупаемого товара" name="count" type="number">
+                    <input readonly="true" id="price" placeholder="{{ .Price }}" name="totalprice" type="text">
+                    <input id="totalprice" placeholder="{{ .TotalPrice }}" name="totalprice" type="text">
+                    
+                    <button  id="calc" type="submit">Посчитать</button>
+                    
+                </form>
+            <form method="POST" action="addPruchase/buy">
+                <button onclick="addPurchase()" type="submit">Купить</button>
+            </form>
+        </div>
+    </section>
+
+    <script src="/assets/js/admin.js"></script>
+    <script src="/assets/js/script.js"></script>
+
+</body>
+
+
+{{ template "footer" }}
+
+{{ end }}

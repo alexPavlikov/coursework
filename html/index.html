@@ -15,9 +15,9 @@
 
 </head>
 
+{{ template "header" }}
 
-
-<header>
+<!-- <header>
 
     <div class="intro">
         <div class="intro__item">
@@ -29,9 +29,9 @@
                 <div class="dropdown">
                     <a class="intro__link--item " href="/smartphone">Смартфоны</a>
                     <div class="dropdown-content">
-                        <div class="drop-content-item">
+                        <div id="dropq" class="drop-content-item">
                             {{range $_, $e := .Rows }}
-                                <a class="drop-item" href="#"><img src="/data/logo.png" alt=""><br><span class="drop-item--name">{{ $e.Name }}</span></a>                              
+                                <a class="drop-item" href="/smartphone#{{$e.Name}}"><img src="/data/logo.png" alt=""><br><span id="namesD" class="drop-item--name">{{$e.Name}}</span></a>                              
                             {{end}}
                         </div>                           
                     </div>                   
@@ -50,10 +50,7 @@
                 <a class="intro__img" href=""><i class="fa-solid fa-magnifying-glass"></i></a>
                 <a class="intro__img" href=""><i class="fa-solid fa-cart-shopping"></i></a>
                 <button  id="auth" class="intro__img" href=""><i onclick="authWindow()" id="user" class="fa-solid fa-user">
-                <!-- {{ if ne .Men "" }}
-                <i class="user_name ">{{ .Name }}</i>
-                {{ end }} -->
-                </i></button><!-- onclick="authWindow()" fas fa-plus -->
+                </i></button>
                 
             </div>
         </div>
@@ -63,7 +60,7 @@
         <i class="fas fa-plus"></i>
     {{ end }}
    
-</header>
+</header> -->
     
 <!-- <main id="main">
     <label for="">Добро пожаловать!</label>
@@ -90,26 +87,29 @@
     <!-- </form> -->
 
     <section class="section">
+        <a href="/smartphone">   
             <div class="pre-order">
-                <a href="">                
+                              
                     <!-- <div class="pre-order__img"><img src="/Data/index/preOrder.jpeg" alt=""></div> -->
                     <div class="pre-order__description">
                         <div class="pre-order__description--text">Предзаказ: 6-12 октября</div>
                         <div class="pre-order__description--name">Серия Xiaomi 12T</div>
                         <div class="pre-order__description--text">Выгода до 5000 ₽</div>
                         <div class="pre-order__description--text">Наушники Xiaomi Buds 3 за 1 ₽</div>
-                        <div class="pre-order__btn"><button formaction="/smartphone" class="pre-order__button">Купить</button></div>
+                        <div class="pre-order__btn"><button href="/smartphone" class="pre-order__button">Купить</button></div>
                     </div>
                     
-                </a>
+               
             </div>
+        </a>
         
     </section>
 
     <section class="section">
        
-        <div class="pre-order pr">
-            <a href="">                 
+        <a href="/smartphone">  
+            <div class="pre-order pr">
+                           
                 <!-- <div class="pre-order__img"></div> -->
                 <div class="pre-order__description">
                     <div class="pre-order__description--name">POCO M5</div>
@@ -123,8 +123,9 @@
                     </div>
                 </div>
                 
-            </a>
-        </div>
+            
+            </div>
+        </a>
     
     </section>
 

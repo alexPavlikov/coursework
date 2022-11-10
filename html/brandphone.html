@@ -13,53 +13,7 @@
     <title>Document</title>
 </head>
 
-<header>
-
-    <div class="intro">
-        <div class="intro__item">
-            <div class="intro__brand"><a href="/"><img style="border-radius: 150px;" src="/data/logo.png" alt=""></a></div>
-            <div class="intro__link">
-                <a class="intro__link--item" href="/discount">Акции</a>
-                
-
-                <div class="dropdown">
-                    <a class="intro__link--item " href="/smartphone">Смартфоны</a>
-                    <div class="dropdown-content">
-                        <div class="drop-content-item">
-                            {{range $_, $e := .Rows }}
-                                <a class="drop-item" href="#"><img src="/data/logo.png" alt=""><br><span class="drop-item--name">{{ $e.Name }}</span></a>                              
-                            {{end}}
-                        </div>                           
-                    </div>                   
-               </div>
-               <a class="intro__link--item" href="/periphery">Периферия</a>
-               <a class="intro__link--item" href="/advance">Дополнительно</a>                           
-                          
-            </div>
-        </div>
-        <div class="intro__item intro__right">
-            <div class="intro__link">
-                <a class="intro__link--item" href="">Блог</a>
-                <a class="intro__link--item active" href="/brandphone">Все товары</a>
-            </div>
-            <div class="intro__imgLink">  
-                <a class="intro__img" href=""><i class="fa-solid fa-magnifying-glass"></i></a>
-                <a class="intro__img" href=""><i class="fa-solid fa-cart-shopping"></i></a>
-                <button  id="auth" class="intro__img" href=""><i onclick="authWindow()" id="user" class="fa-solid fa-user">
-                <!-- {{ if ne .Men "" }}
-                <i class="user_name ">{{ .Name }}</i>
-                {{ end }} -->
-                </i></button><!-- onclick="authWindow()" fas fa-plus -->
-                
-            </div>
-        </div>
-    </div>
-
-    {{ if eq .Role "true" }}
-        <i class="fas fa-plus"></i>
-    {{ end }}
-   
-</header>
+{{ template "header" }}
 
 <body>
     

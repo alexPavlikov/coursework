@@ -100,10 +100,55 @@ function createModalDelete() {
     }
 }
 
+
+function createAdminAdd() {
+    let form = document.querySelector(".admin-add-adm");
+    if(!form){
+        console.warn("Элемент [.admin-add-adm] не найден");
+        return;
+    }
+    let closeMain = document.createElement("i");
+    closeMain.classList.add("fas", "fa-times");
+    closeMain.onclick = function () {
+        // this.parentElement.parentElement.remove();
+        this.parentElement.parentElement.classList.remove("visual");
+    };
+
+    let blog = document.querySelector(".blog");
+    blog.classList.add("visual");
+   
+
+    if (form.append(closeMain)) {
+        window.parent.location = window.parent.location.href;
+    }
+}
+
 function createModalAdd() {
     let form = document.querySelector(".admin-add");
     if(!form){
         console.warn("Элемент [.admin-add] не найден");
+        return;
+    }
+    let closeMain = document.createElement("i");
+    closeMain.classList.add("fas", "fa-times");
+    closeMain.onclick = function () {
+        // this.parentElement.parentElement.remove();
+        this.parentElement.parentElement.classList.remove("visual");
+    };
+
+    let blog = document.querySelector(".blog");
+    blog.classList.add("visual");
+   
+
+    if (form.append(closeMain)) {
+        window.parent.location = window.parent.location.href;
+    }
+}
+
+function createModalSerial() {
+    let form = document.querySelector(".admin-serial");
+    if(!form){
+        console.warn("Элемент [.admin-serial] не найден");
         return;
     }
     let closeMain = document.createElement("i");

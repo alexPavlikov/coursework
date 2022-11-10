@@ -114,3 +114,27 @@ function dialogWindow() {
     document.body.append(dialog);
 
 }
+
+function addPurchase() {
+    var select_id = document.getElementById("selectuser");
+    select_id.options[select_id.selectedIndex].text;
+    var product = document.getElementById("selectproduct");
+    select_id.options[select_id.selectedIndex].text;
+    let count = document.getElementById('count');
+
+    if(!user || user.value.length < 10) {
+        // user.classList.add("incorrect");
+        user.oninput = ClearIncorrect;
+        isCorrect = false;
+    }
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "/purchaseList/addPruchase/buy");
+    let purchase = JSON.stringify({
+        User: user.value,
+        Product: product.value,
+        Count: count.value,
+    });
+    console.log(purchase);
+    xhr.send(purchase)
+}

@@ -18,19 +18,29 @@ h1,h2,h3,h4,h5,h6 {
 
 .section {
     width: 100%;
-    padding-top: 120px;
+    /* padding-top: 120px; */
 }
 
 .registration {
     background-color:rgb(255, 124, 36);
-
-    width: 40%;
-    margin: 0 30%;
     
-    height: 530px;
+    width: 40%;
+    margin: 150px 30%;
+    
+    min-height: 530px;
     /* filter: drop-shadow(10px 8px 120px rgba(0, 0, 0, 0.250)); */
     box-shadow: 20px -15px 10px 5px rgba(0, 0, 0, .2);
     margin-bottom: 50px;
+    padding-bottom: 50px;
+}
+
+.registration select {
+    width: 80%;
+    margin: 15px 10%;
+    padding: 10px 15px;
+    font-size: 20px;
+    border: 2px solid transparent;
+    color: grey;
 }
 
 .registration div {
@@ -58,11 +68,19 @@ h1,h2,h3,h4,h5,h6 {
     border-radius: 15px;
     padding: 10px 15px;
     text-align: center;
-    margin: 30px 32%;
+    margin: 30px auto;
+    width: 50%;
+    margin: 0 25%;
     transition: all .2s linear;
-    
 }
 
+.registration button:last-child {
+    margin-top: 30px;
+}
+
+.registration #calc {
+    margin-top: 20px;
+}
 .registration button:hover {
     cursor: pointer;
     color:rgb(255, 124, 36);
@@ -72,3 +90,8 @@ h1,h2,h3,h4,h5,h6 {
 .registration button:active {
     opacity: .6;
 }
+
+/* .body h1 {
+    padding-top: 100px;
+    font-weight: 700;
+} */

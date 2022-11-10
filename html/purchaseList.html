@@ -1,4 +1,4 @@
-{{ define "user" }}
+{{ define "purchase" }}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,19 +20,17 @@
     
 
     <admin class="admin">
-        <div onclick="createModalAdd()" class="admin-btn"><i class="fas fa-plus"></i></div>
-        <div onclick="createModalDelete()" class="admin-btn"><i class="fa-solid fa-trash"></i></div>
-        <a href="/admin/manager" class="admin-btn"><i class="fa-solid fa-lock"></i></a>
+        <a href="/purchaseList/addPruchase" class="admin-btn"><i class="fas fa-plus"></i></a>
+        <div style="opacity: .4; pointer-events: none; cursor: default;" onclick="" class="admin-btn"><i class="fa-solid fa-trash"></i></div>
+        <a style="opacity: .4; pointer-events: none; cursor: default;" href="/adminList" class="admin-btn"><i class="fa-solid fa-lock"></i></a>
 
         <a href="/blog" class="admin-btn"><i class="fa-solid fa-turn-down"></i></a>
     </admin>
     
-
-
     <!--Modal window-->
     <div class="bgPage blog" >
         <div class="admin-add">
-            <form action="admin/user">
+            <form action="admin/add">
                 <label for="">Форма добавления пользователя</label>
                 <input name="Email" id="Email" type="text" placeholder="Введите Email пользователя">
                 <input name="Password" id="Password" type="text" placeholder="Введите пароль пользователя">
@@ -41,41 +39,38 @@
             </form>
         </div>
     </div>
-
-   
-   
-    <div class="bgPage bl" >
-        <div class="admin-del">
-            <form action="admin/del">
-                <label for="">Форма удаления пользователя</label>
-                <input name="Email" id="Email" type="text" placeholder="Введите Email пользователя">
-                <textarea name="Reason" id="Reason" id="" placeholder="Введите причину удаления"></textarea>
-                <button type="submit" class="pre-order__button">Удалить</button>
-                <a href="/delUserList" class="pre-order__learnmore">Список удаленных пользователей</a>
-            </form>
-        </div>
-    </div>
    
 
 
-    <h1>Список пользователей</h1> 
+    <h1>Список продаж</h1> 
     {{ $length := len . }}
-    <h3>Общее кол-во пользователей {{$length}}</h3> 
+    <h3>Общее кол-во продаж {{$length}}</h3>
+    <h3>Общая стоимость {{$length}}</h3> 
+    <h3>Прибыль {{$length}}</h3>  
 
     <table class="table">
         <thead>
             <tr>
-                <th>Email</th>
-                <th>Пароль</th>
-                <th>Имя пользователя</th>
+                <th>ID</th>
+                <th>Пользователь</th>
+                <th>Продукт</th>
+                <th>Кол-во</th>
+                <th>Цена</th>
+                <th>Дата</th>
+                <th>Общая стоимость</th>
             </tr>
         </thead> 
     <tbody>
         {{ range . }}
         <tr>
-            <td>{{ .Email }}</td>
-            <td>{{ .Password }}</td>
-            <td>{{ .Name }} </td>
+            <td>{{ .Id }}</td>
+            <td>{{ .User }} </td>
+            <td>{{ .Product }} </td>
+            <td>{{ .Count }}</td>
+            <td>{{ .Price }} </td>
+            <td>{{ .Date }} </td>
+            <td>{{ .TotalPrice }}</td>
+            
         </tr>
         {{ end }}
     </tbody>

@@ -26,20 +26,21 @@
         </div>
         </div>
     </div>
-    
+
     <section class="section">
         <div class="brand_list">
             <div class="brand-half">
-                <div class="item">
+                {{ range $_, $p := .Product }}    
+                <div id="{{ $p.Article }}" class="item">
                     <div class="discount">Скидка 13%</div>
                     <div class="text">
                         
-                        <div class="name">Xiaomi 12T Pro</div>
-                        <div class="description">Система камер с разрешением до 200 Мп</div>
+                        <div class="name">{{ $p.Series }} <span>{{ $p.Name }}</span></div>
+                        <div class="description">{{ $p.Description  }}<span></span>{{ $p.Count }}</div>
                         <div class="price">
                             
-                            <div class="store-week_newPrice">52 990</div>
-                            <div class="store-week_oldPrice">55 990</div>
+                            <div class="store-week_newPrice">{{ $p.Price }}</div>
+                            <div class="store-week_oldPrice"></div>
                         </div>
                     </div>
                     <div class="btns">
@@ -48,169 +49,12 @@
                         
                     </div>
                     <div class="image">
-                        <img src="/data/discount/storeWeek1.jpeg" alt="">
-                    </div>
-                </div>    
-                <div class="item">
-                    <div class="discount">Скидка 13%</div>
-                    <div class="text">
-                        
-                        <div class="name">Xiaomi 12T Pro</div>
-                        <div class="description">Система камер с разрешением до 200 Мп</div>
-                        <div class="price">
-                            
-                            <div class="store-week_newPrice">52 990</div>
-                            <div class="store-week_oldPrice">55 990</div>
-                        </div>
-                    </div>
-                    <div class="btns">
-                        <button class="pre-order__button">Купить</button>
-                        <button class="pre-order__button white">Подробнее</button>
-                        
-                    </div>
-                    <div class="image">
-                        <img src="/data/discount/storeWeek1.jpeg" alt="">
+                        <img src="{{ $p.Image }}" alt="">
                     </div>
                 </div>
-                <div class="item">
-                    <div class="discount">Скидка 13%</div>
-                    <div class="text">
-                        
-                        <div class="name">Xiaomi 12T Pro</div>
-                        <div class="description">Система камер с разрешением до 200 Мп</div>
-                        <div class="price">
-                            
-                            <div class="store-week_newPrice">52 990</div>
-                            <div class="store-week_oldPrice">55 990</div>
-                        </div>
-                    </div>
-                    <div class="btns">
-                        <button class="pre-order__button">Купить</button>
-                        <button class="pre-order__button white">Подробнее</button>
-                        
-                    </div>
-                    <div class="image">
-                        <img src="/data/discount/storeWeek1.jpeg" alt="">
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="discount">Скидка 13%</div>
-                    <div class="text">
-                        
-                        <div class="name">Xiaomi 12T Pro</div>
-                        <div class="description">Система камер с разрешением до 200 Мп</div>
-                        <div class="price">
-                            
-                            <div class="store-week_newPrice">52 990</div>
-                            <div class="store-week_oldPrice">55 990</div>
-                        </div>
-                    </div>
-                    <div class="btns">
-                        <button class="pre-order__button">Купить</button>
-                        <button class="pre-order__button white">Подробнее</button>
-                        
-                    </div>
-                    <div class="image">
-                        <img src="/data/discount/storeWeek1.jpeg" alt="">
-                    </div>
-                </div>
-            </div>
-            <div class="brand-half">
-                <div class="item">
-                    <div class="discount">Скидка 13%</div>
-                    <div class="text">
-                        
-                        <div class="name">Xiaomi 12T Pro</div>
-                        <div class="description">Система камер с разрешением до 200 Мп</div>
-                        <div class="price">
-                            
-                            <div class="store-week_newPrice">52 990</div>
-                            <div class="store-week_oldPrice">55 990</div>
-                        </div>
-                    </div>
-                    <div class="btns">
-                        <button class="pre-order__button">Купить</button>
-                        <button class="pre-order__button white">Подробнее</button>
-                        
-                    </div>
-                    <div class="image">
-                        <img src="/data/discount/storeWeek1.jpeg" alt="">
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="discount">Скидка 13%</div>
-                    <div class="text">
-                        
-                        <div class="name">Xiaomi 12T Pro</div>
-                        <div class="description">Система камер с разрешением до 200 Мп</div>
-                        <div class="price">
-                            
-                            <div class="store-week_newPrice">52 990</div>
-                            <div class="store-week_oldPrice">55 990</div>
-                        </div>
-                    </div>
-                    <div class="btns">
-                        <button class="pre-order__button">Купить</button>
-                        <button class="pre-order__button white">Подробнее</button>
-                        
-                    </div>
-                    <div class="image">
-                        <img src="/data/discount/storeWeek1.jpeg" alt="">
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="discount">Скидка 13%</div>
-                    <div class="text">
-                        
-                        <div class="name">Xiaomi 12T Pro</div>
-                        <div class="description">Система камер с разрешением до 200 Мп</div>
-                        <div class="price">
-                            
-                            <div class="store-week_newPrice">52 990</div>
-                            <div class="store-week_oldPrice">55 990</div>
-                        </div>
-                    </div>
-                    <div class="btns">
-                        <button class="pre-order__button">Купить</button>
-                        <button class="pre-order__button white">Подробнее</button>
-                        
-                    </div>
-                    <div class="image">
-                        <img src="/data/discount/storeWeek1.jpeg" alt="">
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="discount">Скидка 13%</div>
-                    <div class="text">
-                        
-                        <div class="name">Xiaomi 12T Pro</div>
-                        <div class="description">Система камер с разрешением до 200 Мп</div>
-                        <div class="price">
-                            
-                            <div class="store-week_newPrice">52 990</div>
-                            <div class="store-week_oldPrice">55 990</div>
-                        </div>
-                    </div>
-                    <div class="btns">
-                        <button class="pre-order__button">Купить</button>
-                        <button class="pre-order__button white">Подробнее</button>
-                        
-                    </div>
-                    <div class="image">
-                        <img src="/data/discount/storeWeek1.jpeg" alt="">
-                    </div>
-                </div>
-            </div>
+                {{ end }}    
         </div>
     </section>
-
-        <!--
-            
-            
-            Добавить кнопки остальные товары или что-то типо этого 
-
-
-        -->
 
     <div class="section">
         <div class="container brand">
@@ -225,16 +69,17 @@
     <section class="section">
         <div class="brand_list">
             <div class="brand-half">
-                <div class="item">
+                {{ range $_, $p := .Product }}    
+                <div id="{{ $p.Article }}" class="item">
                     <div class="discount">Скидка 13%</div>
                     <div class="text">
                         
-                        <div class="name">Xiaomi 12T Pro</div>
-                        <div class="description">Система камер с разрешением до 200 Мп</div>
+                        <div class="name">{{ $p.Series }} <span>{{ $p.Name }}</span></div>
+                        <div class="description">{{ $p.Description  }}<span></span>{{ $p.Count }}</div>
                         <div class="price">
                             
-                            <div class="store-week_newPrice">52 990</div>
-                            <div class="store-week_oldPrice">55 990</div>
+                            <div class="store-week_newPrice">{{ $p.Price }}</div>
+                            <div class="store-week_oldPrice"></div>
                         </div>
                     </div>
                     <div class="btns">
@@ -243,159 +88,10 @@
                         
                     </div>
                     <div class="image">
-                        <img src="/data/discount/storeWeek1.jpeg" alt="">
-                    </div>
-                </div>    
-                <div class="item">
-                    <div class="discount">Скидка 13%</div>
-                    <div class="text">
-                        
-                        <div class="name">Xiaomi 12T Pro</div>
-                        <div class="description">Система камер с разрешением до 200 Мп</div>
-                        <div class="price">
-                            
-                            <div class="store-week_newPrice">52 990</div>
-                            <div class="store-week_oldPrice">55 990</div>
-                        </div>
-                    </div>
-                    <div class="btns">
-                        <button class="pre-order__button">Купить</button>
-                        <button class="pre-order__button white">Подробнее</button>
-                        
-                    </div>
-                    <div class="image">
-                        <img src="/data/discount/storeWeek1.jpeg" alt="">
+                        <img src="{{ $p.Image }}" alt="">
                     </div>
                 </div>
-                <div class="item">
-                    <div class="discount">Скидка 13%</div>
-                    <div class="text">
-                        
-                        <div class="name">Xiaomi 12T Pro</div>
-                        <div class="description">Система камер с разрешением до 200 Мп</div>
-                        <div class="price">
-                            
-                            <div class="store-week_newPrice">52 990</div>
-                            <div class="store-week_oldPrice">55 990</div>
-                        </div>
-                    </div>
-                    <div class="btns">
-                        <button class="pre-order__button">Купить</button>
-                        <button class="pre-order__button white">Подробнее</button>
-                        
-                    </div>
-                    <div class="image">
-                        <img src="/data/discount/storeWeek1.jpeg" alt="">
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="discount">Скидка 13%</div>
-                    <div class="text">
-                        
-                        <div class="name">Xiaomi 12T Pro</div>
-                        <div class="description">Система камер с разрешением до 200 Мп</div>
-                        <div class="price">
-                            
-                            <div class="store-week_newPrice">52 990</div>
-                            <div class="store-week_oldPrice">55 990</div>
-                        </div>
-                    </div>
-                    <div class="btns">
-                        <button class="pre-order__button">Купить</button>
-                        <button class="pre-order__button white">Подробнее</button>
-                        
-                    </div>
-                    <div class="image">
-                        <img src="/data/discount/storeWeek1.jpeg" alt="">
-                    </div>
-                </div>
-            </div>
-            <div class="brand-half">
-                <div class="item">
-                    <div class="discount">Скидка 13%</div>
-                    <div class="text">
-                        
-                        <div class="name">Xiaomi 12T Pro</div>
-                        <div class="description">Система камер с разрешением до 200 Мп</div>
-                        <div class="price">
-                            
-                            <div class="store-week_newPrice">52 990</div>
-                            <div class="store-week_oldPrice">55 990</div>
-                        </div>
-                    </div>
-                    <div class="btns">
-                        <button class="pre-order__button">Купить</button>
-                        <button class="pre-order__button white">Подробнее</button>
-                        
-                    </div>
-                    <div class="image">
-                        <img src="/data/discount/storeWeek1.jpeg" alt="">
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="discount">Скидка 13%</div>
-                    <div class="text">
-                        
-                        <div class="name">Xiaomi 12T Pro</div>
-                        <div class="description">Система камер с разрешением до 200 Мп</div>
-                        <div class="price">
-                            
-                            <div class="store-week_newPrice">52 990</div>
-                            <div class="store-week_oldPrice">55 990</div>
-                        </div>
-                    </div>
-                    <div class="btns">
-                        <button class="pre-order__button">Купить</button>
-                        <button class="pre-order__button white">Подробнее</button>
-                        
-                    </div>
-                    <div class="image">
-                        <img src="/data/discount/storeWeek1.jpeg" alt="">
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="discount">Скидка 13%</div>
-                    <div class="text">
-                        
-                        <div class="name">Xiaomi 12T Pro</div>
-                        <div class="description">Система камер с разрешением до 200 Мп</div>
-                        <div class="price">
-                            
-                            <div class="store-week_newPrice">52 990</div>
-                            <div class="store-week_oldPrice">55 990</div>
-                        </div>
-                    </div>
-                    <div class="btns">
-                        <button class="pre-order__button">Купить</button>
-                        <button class="pre-order__button white">Подробнее</button>
-                        
-                    </div>
-                    <div class="image">
-                        <img src="/data/discount/storeWeek1.jpeg" alt="">
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="discount">Скидка 13%</div>
-                    <div class="text">
-                        
-                        <div class="name">Xiaomi 12T Pro</div>
-                        <div class="description">Система камер с разрешением до 200 Мп</div>
-                        <div class="price">
-                            
-                            <div class="store-week_newPrice">52 990</div>
-                            <div class="store-week_oldPrice">55 990</div>
-                        </div>
-                    </div>
-                    <div class="btns">
-                        <button class="pre-order__button">Купить</button>
-                        <button class="pre-order__button white">Подробнее</button>
-                        
-                    </div>
-                    <div class="image">
-                        <img src="/data/discount/storeWeek1.jpeg" alt="">
-                    </div>
-                </div>
-            </div>
+                {{ end }}    
         </div>
     </section>
 

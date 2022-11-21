@@ -1,0 +1,144 @@
+{{ define "stat" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <link rel="stylesheet" href="/assets/css/support.css">
+
+    <link rel="stylesheet" href="/assets/css/admin.css">
+
+    <link rel="stylesheet" href="/assets/css/awesome/css/all.css" />
+
+    <title>Document</title>
+</head>
+
+{{ template "header" }}
+
+<body>
+    <admin class="admin">
+        <div style="opacity: .4; pointer-events: none; cursor: default;" onclick="" class="admin-btn"><i class="fas fa-plus"></i></div>
+        <div style="opacity: .4; pointer-events: none; cursor: default;" onclick="delModalSerial()" class="admin-btn"><i class="fa-solid fa-trash"></i></div>
+        <a style="opacity: .4; pointer-events: none; cursor: default;" href="/adminList" class="admin-btn"><i class="fa-solid fa-lock"></i></a>
+        <div style="opacity: .4; pointer-events: none; cursor: default;" onclick="createModalSerial()" class="admin-btn"><i class="fa-solid fa-s"></i></div>
+
+        <a href="/blog" class="admin-btn"><i class="fa-solid fa-turn-down"></i></a>
+    </admin>
+    
+    <div style="display: none;">
+        <span id="spr">{{ .Col1 }}</span>
+        <span id="spx">{{ .Col2 }}</span>
+        <span id="spp">{{ .Col3 }}</span>
+        <span id="re">{{ .TPRedmi }}</span>
+        <span id="xi">{{ .TPXiaomi }}</span>
+        <span id="po">{{ .TPPoco }}</span>
+
+       
+
+    </div>
+
+    <div class="container-stat" id="container1"></div>
+    <div class="container-stat" id="container2"></div>
+    <div class="container-stat" id="container-circel"></div>
+   <div class="container-stat" id="container-area"></div>
+
+    <script src="https://cdn.anychart.com/js/latest/anychart-bundle.min.js"></script>
+    <script>
+        anychart.onDocumentLoad(function() {
+            // create chart and set data
+
+            let t1 = document.getElementById("spr").textContent;
+            let t2 = document.getElementById("spx").textContent;
+            let t3 = document.getElementById("spp").textContent;     
+ 
+            // console.log(t1, t2, t3);
+            var chart = anychart.column([
+                
+                ["Redmi", Number(t1)],
+                ["Xiaomi", Number(t2)],
+                ["Poco", Number(t3)]
+            ]);
+            // set chart title
+            chart.title("Кол-во типов телефонов в магазине по фирмам (ед.)");
+            // set chart container and draw
+            chart.container("container1").draw();
+        });
+
+            let t4 = document.getElementById("re").textContent;
+            let t5 = document.getElementById("xi").textContent;
+            let t6 = document.getElementById("po").textContent; 
+
+        anychart.onDocumentLoad(function() {
+            // create chart and set data
+            
+
+            // console.log(t4, t5, t6);
+            var chart = anychart.column([
+                
+                ["Redmi", Number(t4)],
+                ["Xiaomi", Number(t5)],
+                ["Poco", Number(t6)]
+            ]);
+            // set chart title
+            chart.title("Общая цена товара в наличие по фирмам (рос.руб) ");
+            // set chart container and draw
+            chart.container("container2").draw();
+        });
+
+
+        anychart.onDocumentLoad(function() {
+            // create chart and set data
+            
+
+            var data = [
+        {x: "Redmi", value: Number(t4)},
+        {x: "Xiaomi", value: Number(t5)},
+        {x: "Poco", value: Number(t6)}
+        ];
+        chart = anychart.pie(data);
+        chart.title("Процентное соотношение общей цены товара в наличие по фирмам (% / рос.руб) ");
+        chart.innerRadius("30%");
+
+        chart.container("container-circel");
+
+        chart.draw();
+        });   
+
+        p1 = "{{index .Price 0}}";
+        p2 = "{{index .Price 1}}";
+        p3 = "{{index .Price 2}}";
+        p4 = "{{index .Price 3}}";
+        p5 = "{{index .Price 4}}";
+        
+        anychart.onDocumentLoad(function() {
+            var data = [
+                ["{{index .Date 0}}", p1],
+                ["{{index .Date 1}}", p2],
+                ["{{index .Date 2}}", p3],
+                ["{{index .Date 3}}", p4],
+                ["{{index .Date 4}}", p5]
+                ];
+                
+                chart = anychart.area();
+                var series = chart.area(data);
+                chart.title("График день-продажи (рос.руб) ");
+                chart.container("container-area");
+                chart.draw();
+        }); 
+
+    </script>
+
+
+        
+    
+    <script src="/assets/js/script.js"></script>
+    <script src="/assets/js/admin.js"></script>
+</body>
+
+{{ template "footer" }}
+
+{{ end }}

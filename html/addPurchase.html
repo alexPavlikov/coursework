@@ -15,7 +15,6 @@
 {{ template "header" }}
 
 
-
 <body>
 
     <section class="section">
@@ -26,9 +25,9 @@
                 <form action="#" method="post" action="">
                     <!-- <div> -->
                         
-                        <select id="selectuser" onChange="OnDropDownChange(this);">
+                        <select id="selectuser">
                             {{range $_, $e := .User }} 
-                            <option id="iptuser">{{ $e.Email }}</option>
+                            <option >{{ $e.Email }}</option>
                             {{ end }}                                                    
                         </select>
                     <!-- </div> -->

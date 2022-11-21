@@ -111,9 +111,9 @@ func connect() error {
 }
 
 func prepareQueries() {
-	Queries["Select#Category"], err = db.Prepare(`SELECT "Name" FROM "Category" ORDER BY "Name"`)
+	Queries["Select#Series"], err = db.Prepare(`SELECT "Name" FROM "Series" ORDER BY "Name"`)
 	if err != nil {
-		fmt.Println("Ошибка запроса Select#Category ")
+		fmt.Println("Ошибка запроса Select#Series ")
 	}
 
 	Queries["Select#User"], err = db.Prepare(`SELECT "Name" FROM "Users" WHERE "Email"=$1 AND "Password"=$2`)
@@ -138,13 +138,12 @@ func prepareQueries() {
 
 }
 
-func (ct *categoty) Select() error {
-	stmt, ok := Queries["Select#Category"]
+func (ct *series) Select() error {
+	stmt, ok := Queries["Select#Series"]
 	if !ok {
-		err = errors.New("db.go Select() - Select#Category")
+		err = errors.New("db.go Select() - Select#Series")
 		return err
 	}
-	// defer stmt.Close()
 
 	rows, err := stmt.Query()
 	if err != nil {
@@ -157,8 +156,7 @@ func (ct *categoty) Select() error {
 			fmt.Println("Error - Scan", err.Error())
 		}
 
-		ct.Rows = append(ct.Rows, categoty{Name: ct.Name})
-		// fmt.Println(ct.Rows)
+		ct.Rows = append(ct.Rows, series{Name: ct.Name})
 	}
 
 	return nil
@@ -170,14 +168,12 @@ func (m *manager) Select() error {
 		err = errors.New("db.go Select() - Select#User")
 		return err
 	}
-	// defer stmtUser.Close()
 
 	stmtManager, ok := Queries["Select#Manager"]
 	if !ok {
 		err = errors.New("db.go Select() - Select#Manager")
 		return err
 	}
-	// defer stmtManager.Close()
 
 	r := stmtUser.QueryRow(m.Login, m.Password)
 
@@ -209,19 +205,6 @@ func (posts *post) Select() error {
 		return err
 	}
 
-	// err := rows.Scan(&posts.Id, &posts.Image, &posts.Title, &posts.Text, &posts.Data)
-	// if err != nil {
-	// 	fmt.Println(err.Error())
-	// }
-	// for rows.Next() {
-	// 	err = rows.Scan(&posts.Image)
-	// 	if err != nil {
-	// 		fmt.Println("Error - Scan", err.Error())
-	// 	}
-
-	// 	posts.Rows = append(posts.Rows, post{Image: posts.Image})
-	// }
-
 	for rows.Next() {
 		err := rows.Scan(&posts.Id, &posts.Image, &posts.Title, &posts.Text, &posts.Data)
 		if err != nil {
@@ -235,13 +218,11 @@ func (posts *post) Select() error {
 			Text:  posts.Text,
 			Data:  posts.Data,
 		})
-		// fmt.Println(posts.Rows)
 	}
 
 	return nil
 }
 
-// Users insert in database
 func insertUsers(db *sql.DB, us user) error {
 	query := `INSERT INTO "Users"("Email", "Password", "Name") VALUES ($1, $2, $3)`
 	ctx, cancelfunc := context.WithTimeout(context.Background(), 5*time.Second)
@@ -271,7 +252,6 @@ func deleteUsers(db *sql.DB, usb userBanned) error {
 	if err == nil {
 		count, err := res.RowsAffected()
 		if err == nil {
-			/* check count and return true/false */
 			fmt.Println(count)
 		}
 		return nil
@@ -303,7 +283,6 @@ func insertManager(db *sql.DB, m manager) error {
 	return nil
 }
 
-// Post insert in database
 func insertPosts(db *sql.DB, p post) error {
 	query := `INSERT INTO "Posts"("Image", "Title", "Text", "Data") VALUES ($1, $2, $3, $4)`
 	ctx, cancelfunc := context.WithTimeout(context.Background(), 5*time.Second)
@@ -335,12 +314,6 @@ func dbSelect() []user {
 		panic(err)
 	}
 
-	// rows, ok := Queries["Select#Users"]
-	// if !ok {
-	// 	err = errors.New("db.go Select() - Select#User")
-	// 	return err
-	// }
-
 	employee := user{}
 	employees := []user{}
 
@@ -357,7 +330,7 @@ func dbSelect() []user {
 		employees = append(employees, employee)
 
 	}
-	// defer db.Close()
+	//defer db.Close()
 	return employees
 }
 
@@ -367,13 +340,6 @@ func adminSelect() []manager {
 		fmt.Println("Error = adminSelect() db.go")
 		panic(err)
 	}
-
-	// rows, ok := Queries["Select#Users"]
-	// if !ok {
-	// 	err = errors.New("db.go Select() - Select#User")
-	// 	return err
-	// }
-
 	employee := manager{}
 	employeesAdmin := []manager{}
 
@@ -391,7 +357,7 @@ func adminSelect() []manager {
 		employeesAdmin = append(employeesAdmin, employee)
 
 	}
-	// defer db.Close()
+	//defer db.Close()
 	return employeesAdmin
 }
 
@@ -401,13 +367,6 @@ func postSelect() []post {
 		fmt.Println("Error = postSelect() db.go")
 		panic(err)
 	}
-
-	// rows, ok := Queries["Select#Users"]
-	// if !ok {
-	// 	err = errors.New("db.go Select() - Select#User")
-	// 	return err
-	// }
-
 	employee := post{}
 	employeesPost := []post{}
 
@@ -428,8 +387,7 @@ func postSelect() []post {
 
 	}
 	countPosts = len(employeesPost)
-	fmt.Println(countPosts)
-	// defer db.Close()
+	//defer db.Close()
 	return employeesPost
 }
 
@@ -439,13 +397,6 @@ func productSelect() []product {
 		fmt.Println("Error = productSelect() db.go")
 		panic(err)
 	}
-
-	// rows, ok := Queries["Select#Users"]
-	// if !ok {
-	// 	err = errors.New("db.go Select() - Select#User")
-	// 	return err
-	// }
-
 	employee := product{}
 	employeesProduct := []product{}
 
@@ -468,7 +419,7 @@ func productSelect() []product {
 		employeesProduct = append(employeesProduct, employee)
 
 	}
-	// defer db.Close()
+	//defer db.Close()
 	return employeesProduct
 }
 
@@ -480,12 +431,6 @@ func purchaseSelect() []purchase {
 		fmt.Println("Error = purchaseSelect() db.go")
 		panic(err)
 	}
-
-	// rows, ok := Queries["Select#Users"]
-	// if !ok {
-	// 	err = errors.New("db.go Select() - Select#User")
-	// 	return err
-	// }
 
 	employee := purchase{}
 	employeesPurchase := []purchase{}
@@ -509,7 +454,7 @@ func purchaseSelect() []purchase {
 		employeesPurchase = append(employeesPurchase, employee)
 
 	}
-	// defer db.Close()
+	//defer db.Close()
 	return employeesPurchase
 }
 
@@ -519,15 +464,7 @@ func seriesSelect() []series {
 		fmt.Println("Error = seriesSelect() db.go")
 		panic(err)
 	}
-
-	// rows, ok := Queries["Select#Users"]
-	// if !ok {
-	// 	err = errors.New("db.go Select() - Select#User")
-	// 	return err
-	// }
-
 	employee := series{}
-	// employeesProduct := []series{}
 
 	for rows.Next() {
 		var name string
@@ -540,7 +477,7 @@ func seriesSelect() []series {
 		employee.Rows = append(employee.Rows, employee)
 
 	}
-	// defer db.Close()
+	//defer db.Close()
 	return employee.Rows
 }
 
@@ -551,14 +488,7 @@ func delUserSelect() []userBanned {
 		panic(err)
 	}
 
-	// rows, ok := Queries["Select#Users"]
-	// if !ok {
-	// 	err = errors.New("db.go Select() - Select#User")
-	// 	return err
-	// }
-
 	employeeUserBan := userBanned{}
-	// employeesProduct := []series{}
 
 	for rows.Next() {
 		var email, reason string
@@ -572,7 +502,7 @@ func delUserSelect() []userBanned {
 		employeeUserBan.Rows = append(employeeUserBan.Rows, employeeUserBan)
 
 	}
-	// defer db.Close()
+	//defer db.Close()
 
 	return employeeUserBan.Rows
 }
@@ -600,17 +530,6 @@ func insertSeries(db *sql.DB, s series) error {
 	log.Printf("%d products created ", rows)
 	return nil
 }
-
-//	type pur struct {
-//		Id         int
-//		User       user
-//		Product    product
-//		count      uint16
-//		Price      product
-//		Date       string
-//		TotalPrice float64
-//		Rows []pur
-//	}
 
 func purSelect() pur {
 
@@ -660,7 +579,7 @@ func purSelect() pur {
 
 		stuff.User.Rows = append(stuff.User.Rows, stuff.User)
 	}
-	// defer db.Close()
+	//defer db.Close()
 	return stuff
 }
 
@@ -673,9 +592,46 @@ func insertPurchase(db *sql.DB, f foo) error {
 		log.Printf("Error %s when preparing SQL statement", err)
 		return err
 	}
+
 	defer stmt.Close()
+	f.id = 11
+	f.userPur = "a.pavlikov22@gmail.com"
+	f.products = 5435
 	fmt.Println(f.id, f.userPur, f.products, f.valuePur, f.price, f.data, f.tprice)
 	res, err := stmt.ExecContext(ctx, f.id, f.userPur, f.products, f.valuePur, f.price, f.data, f.tprice)
+	if err != nil {
+		log.Printf("Error %s when inserting row into products table", err)
+		return err
+	}
+
+	queryRes := fmt.Sprintf(`UPDATE "Products" SET "Count" = "Count" - %d WHERE "Article" =  '%d'`, f.valuePur, f.products)
+	_, er := db.Query(queryRes)
+	if er != nil {
+		fmt.Println(er)
+	}
+	fmt.Println(queryRes)
+
+	rows, err := res.RowsAffected()
+	if err != nil {
+		log.Printf("Error %s when finding rows affected", err)
+		return err
+	}
+
+	log.Printf("%d purchase created ", rows)
+	return nil
+}
+
+func insertDelUser(db *sql.DB, usb userBanned) error {
+	query := `INSERT INTO "DelUsers"("Email", "Reason") VALUES ($1, $2)`
+	ctx, cancelfunc := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancelfunc()
+	stmt, err := db.PrepareContext(ctx, query)
+	if err != nil {
+		log.Printf("Error %s when preparing SQL statement", err)
+		return err
+	}
+	defer stmt.Close()
+	res, err := stmt.ExecContext(ctx, usb.Email, usb.Reason)
 	if err != nil {
 		log.Printf("Error %s when inserting row into products table", err)
 		return err
@@ -687,4 +643,173 @@ func insertPurchase(db *sql.DB, f foo) error {
 	}
 	log.Printf("%d products created ", rows)
 	return nil
+}
+
+func deleteSeries(db *sql.DB, s series) error {
+	res, err := db.Exec(`DELETE FROM "Series" WHERE "Name" = ($1)`, s.Name)
+	if err == nil {
+		count, err := res.RowsAffected()
+		if err == nil {
+			fmt.Println(count)
+		}
+		return nil
+	}
+	return err
+}
+
+func insertProduct(db *sql.DB, prod product) error {
+	query := `INSERT INTO "Products"("Article", "Series", "Name", "Price", "Count", "Image", "Description") VALUES ($1, $2, $3, $4, $5, $6, $7)`
+	ctx, cancelfunc := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancelfunc()
+	stmt, err := db.PrepareContext(ctx, query)
+	if err != nil {
+		log.Printf("Error %s when preparing SQL statement", err)
+		return err
+	}
+	defer stmt.Close()
+	prod.Series = "Poco"
+	res, err := stmt.ExecContext(ctx, prod.Article, prod.Series, prod.Name, prod.Price, prod.Count, prod.Image, prod.Description)
+	if err != nil {
+		log.Printf("Error %s when inserting row into products table", err)
+		return err
+	}
+	rows, err := res.RowsAffected()
+	if err != nil {
+		log.Printf("Error %s when finding rows affected", err)
+		return err
+	}
+	log.Printf("%d products created ", rows)
+	return nil
+}
+
+func deletePost(db *sql.DB, pt post) error {
+	res, err := db.Exec(`DELETE FROM "Posts" WHERE "Id" = ($1)`, pt.Id)
+	if err == nil {
+		_, err := res.RowsAffected()
+		if err != nil {
+			fmt.Println(err)
+		}
+		return nil
+	}
+	return err
+}
+
+func deleteProduct(db *sql.DB, pd product) error {
+	res, err := db.Exec(`DELETE FROM "Products" WHERE "Article" = ($1)`, pd.Article)
+	if err == nil {
+		_, err := res.RowsAffected()
+		if err != nil {
+			fmt.Println(err)
+		}
+		return nil
+	}
+	return err
+}
+
+func brandSelect(brand string, val int) []product {
+
+	text := fmt.Sprintf(`SELECT * FROM "Products" WHERE "Series" = '%s' LIMIT %d`, brand, val)
+
+	rows, err := db.Query(text)
+	if err != nil {
+		fmt.Println("Error = brandSelect() db.go")
+		panic(err)
+	}
+
+	employee := product{}
+	employeesProduct := []product{}
+
+	for rows.Next() {
+		var article, count int
+		var price float64
+		var series, name, image, description string
+		err = rows.Scan(&article, &series, &name, &price, &count, &image, &description)
+		if err != nil {
+			fmt.Println("Error = brandSelect() rows.Next()  db.go")
+			panic(err)
+		}
+		employee.Article = article
+		employee.Series = series
+		employee.Name = name
+		employee.Price = price
+		employee.Count = count
+		employee.Image = image
+		employee.Description = description
+		employeesProduct = append(employeesProduct, employee)
+
+	}
+	//defer db.Close()
+	return employeesProduct
+}
+
+func valueBrandSelect(brand string) int {
+
+	text := fmt.Sprintf(`SELECT COUNT(*) as count FROM "Products" WHERE "Series" = '%s'`, brand)
+
+	rows, err := db.Query(text)
+	if err != nil {
+		fmt.Println("Error = brandSelect() db.go")
+		panic(err)
+	}
+	var count int
+	for rows.Next() {
+
+		err = rows.Scan(&count)
+		if err != nil {
+			fmt.Println("Error = brandSelect() rows.Next()  db.go")
+			panic(err)
+		}
+	}
+	//defer db.Close()
+	return count
+}
+
+func priceBrandSelect(brand string) []float64 {
+
+	employeesPrice := []float64{}
+
+	text := fmt.Sprintf(`SELECT "Price" as count FROM "Products" WHERE "Series" = '%s'`, brand)
+
+	rows, err := db.Query(text)
+	if err != nil {
+		fmt.Println("Error = brandSelect() db.go")
+		panic(err)
+	}
+	var count float64
+	for rows.Next() {
+
+		err = rows.Scan(&count)
+		if err != nil {
+			fmt.Println("Error = brandSelect() rows.Next() db.go")
+			panic(err)
+		}
+		employeesPrice = append(employeesPrice, count)
+	}
+	//defer db.Close()
+	return employeesPrice
+}
+
+func purchPriceSelect() ([]float64, []string) {
+	employeesPrice := []float64{}
+	employeesData := []string{}
+	rows, err := db.Query(`SELECT "Date", "TotalPrice" as count FROM "Purchase"`)
+	if err != nil {
+		fmt.Println("Error = purchPriceSelect() db.go")
+		panic(err)
+	}
+	var count float64
+	var date string
+	for rows.Next() {
+
+		err = rows.Scan(&date, &count)
+		if err != nil {
+			fmt.Println("Error = brandSelect() rows.Next() db.go")
+			panic(err)
+		}
+		employeesPrice = append(employeesPrice, count)
+		employeesData = append(employeesData, date)
+		//fmt.Println(count, date)
+	}
+
+	return employeesPrice, employeesData
 }

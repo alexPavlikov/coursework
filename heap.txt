@@ -50,3 +50,28 @@ document.addEventListener("DOMContentLoaded", () => {
 // </div>
 //<div class="bgPage"></div>
 // </main>
+
+//-------------------------------------------------------
+<!-- {{range $_, $e := .User }} 
+                    <option id="iptuser">{{ $e.Email }}</option>
+                    {{ end }}  -->
+
+   
+    <!-- <div class="bgPage bl" >
+        <div class="admin-add product">
+            <form action="product/add">
+                <label for="">Форма добавления товара</label>
+                <input name="Email" id="Email" type="text" placeholder="Введите артикуль товара">
+                <select id="selectuser">
+                    
+                    <option value="">1</option>
+                </select>
+                <input name="Email" id="Email" type="text" placeholder="Введите название товара">
+                <input name="Email" id="Email" type="text" placeholder="Введите цену товара">
+                <input name="Email" id="Email" type="text" placeholder="Введите кол-во товара">
+                <input name="Email" id="Email" type="text" placeholder="Вставьте картинку товара">
+                <textarea name="Reason" id="Reason" id="" placeholder="Введите причину товара"></textarea>
+                <button type="submit" class="pre-order__button">Добавить</button>
+            </form>
+        </div>
+    </div> -->

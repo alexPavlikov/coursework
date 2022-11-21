@@ -166,3 +166,49 @@ function createModalSerial() {
         window.parent.location = window.parent.location.href;
     }
 }
+
+
+function delModalSerial() {
+    let form = document.querySelector(".serdel");
+    if(!form){
+        console.warn("Элемент [.serdel] не найден");
+        return;
+    }
+    let closeMain = document.createElement("i");
+    closeMain.classList.add("fas", "fa-times");
+    closeMain.onclick = function () {
+        // this.parentElement.parentElement.remove();
+        this.parentElement.parentElement.classList.remove("visual");
+    };
+
+    let blog = document.querySelector(".bl");
+    blog.classList.add("visual");
+   
+
+    if (form.append(closeMain)) {
+        window.parent.location = window.parent.location.href;
+    }
+}
+
+
+function createModalProduct() {
+    let form = document.querySelector(".product");
+    if(!form){
+        console.warn("Элемент [.product] не найден");
+        return;
+    }
+    let closeMain = document.createElement("i");
+    closeMain.classList.add("fas", "fa-times");
+    closeMain.onclick = function () {
+        // this.parentElement.parentElement.remove();
+        this.parentElement.parentElement.classList.remove("visual");
+    };
+
+    let blog = document.querySelector(".bl");
+    blog.classList.add("visual");
+   
+
+    if (form.append(closeMain)) {
+        window.parent.location = window.parent.location.href;
+    }
+}

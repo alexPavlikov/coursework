@@ -1,0 +1,57 @@
+{{ define "addProduct"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/assets/css/support.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    
+    <link rel="stylesheet" href="/assets/css/awesome/css/all.css" />
+
+    <title>Окно регистрации</title>
+</head>
+{{ template "header" }}
+
+
+
+<body>
+
+    <section class="section">
+        <div class="registration">
+            
+            <div>Оформление покупки</div>
+
+                <form method="post" action="">
+                    <input id="article" placeholder="Ввдеите Id товара" name="article" type="text">
+                    <select id="selectseries">
+                        {{range $_, $c := .Series }}
+                        <option id="sel">{{ $c.Name }}</option>
+                        {{ end }}                                                    
+                    </select>
+                    <input id="name" placeholder="Введите название товара" name="name" type="text">
+                    <input id="price" placeholder="Введите цену товара" name="price" type="text">
+                    <input min="1" id="count" placeholder="Введите кол-во товара на складе" name="count" type="number">
+                    <input id="image" placeholder="Вставьте картинку товара" name="image" type="text">
+                    <textarea name="description" id="description" placeholder="Введите описание товара"></textarea>
+                    
+                    <button  id="calc" type="submit">Добавить</button>
+                    
+                </form>
+                <form method="POST" action="addProduct/add">
+                    <button onclick="addPurchase()" type="submit">Купить</button>
+                </form>
+        </div>
+    </section>
+
+    <script src="/assets/js/admin.js"></script>
+    <script src="/assets/js/script.js"></script>
+
+</body>
+
+
+{{ template "footer" }}
+
+{{ end }}

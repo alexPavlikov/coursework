@@ -21,7 +21,7 @@
 
     <admin class="admin">
         <div style="opacity: .4; pointer-events: none; cursor: default;" onclick="" class="admin-btn"><i class="fas fa-plus"></i></div>
-        <div style="opacity: .4; pointer-events: none; cursor: default;" onclick="" class="admin-btn"><i class="fa-solid fa-trash"></i></div>
+        <div onclick="delModalSerial()" class="admin-btn"><i class="fa-solid fa-trash"></i></div>
         <a style="opacity: .4; pointer-events: none; cursor: default;" href="/adminList" class="admin-btn"><i class="fa-solid fa-lock"></i></a>
         <div onclick="createModalSerial()" class="admin-btn"><i class="fa-solid fa-s"></i></div>
 
@@ -43,11 +43,10 @@
 
    
     <div class="bgPage bl" >
-        <div class="admin-del">
-            <form action="admin/del">
-                <label for="">Форма удаления пользователя</label>
-                <input name="Email" id="Email" type="text" placeholder="Введите Email пользователя">
-                <textarea name="Reason" id="Reason" id="" placeholder="Введите причину удаления"></textarea>
+        <div class="admin-del serdel">
+            <form action="admin/serdel">
+                <label for="">Форма удаления серии товара</label>
+                <input name="Series" id="Series" type="text" placeholder="Введите название серии">
                 <button type="submit" class="pre-order__button">Удалить</button>
             </form>
         </div>

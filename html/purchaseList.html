@@ -16,6 +16,25 @@
 
     <title>Document</title>
 </head>
+
+<script>
+    window.onload = function () {
+        var values = document.getElementsByClassName("tp");
+        var sum = 0;
+        for (var i = 0, count = values.length; i < count; i++) {
+            sum += Number(values[i].textContent || values[i].innerText);
+        }
+        // document.getElementById("total").value = sum;
+        let element = document.querySelector('#total');
+        let elem = document.querySelector('#profit');
+        element.innerHTML = sum;
+
+        var pr = sum * 0.3;
+        elem.innerHTML = pr;
+        //alert(sum);
+    }
+</script>
+
 <body>
     
 
@@ -45,8 +64,10 @@
     <h1>Список продаж</h1> 
     {{ $length := len . }}
     <h3>Общее кол-во продаж {{$length}}</h3>
-    <h3>Общая стоимость {{$length}}</h3> 
-    <h3>Прибыль {{$length}}</h3>  
+
+    <h3>Общая прибыль: <span id="total"></span> рублей</h3> 
+
+    <h3>Прибыль: <span id="profit"></span> рублей</h3>  
 
     <table class="table">
         <thead>
@@ -69,7 +90,7 @@
             <td>{{ .Count }}</td>
             <td>{{ .Price }} </td>
             <td>{{ .Date }} </td>
-            <td>{{ .TotalPrice }}</td>
+            <td class="tp">{{ .TotalPrice }}</td>
             
         </tr>
         {{ end }}

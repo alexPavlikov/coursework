@@ -57,44 +57,37 @@ func handlerRequest() {
 	http.HandleFunc("/admin/series", addSerialHandler)
 	http.HandleFunc("/admin/manager", adminTableHandler)
 	http.HandleFunc("/productList", productTableHandler)
+	http.HandleFunc("/productList/addProduct", productAddHandler)
+	http.HandleFunc("/productList/addProduct/add", addPrHandler)
 	http.HandleFunc("/postList", postTableHandler)
+	http.HandleFunc("/postList/", postDelHandler)
 	http.HandleFunc("/purchaseList", purchaseTableHandler)
 	http.HandleFunc("/delUserList", delUserTableHandler)
 	http.HandleFunc("/seriesList", seriesTableHandler)
 	http.HandleFunc("/purchaseList/addPruchase", addPurchaseHandler)
-	http.HandleFunc("/purchaseList/addPruchase/buy", buyPurchaseHandler)
+	http.HandleFunc("/purchaseList/addPruchase/buy", buyPurchaseHandler) //-------------------
+	http.HandleFunc("/admin/serdel", delSeriesHandler)
+	http.HandleFunc("/product/del", productDelHandler)
+	http.HandleFunc("/statistics", statHandler)
 }
 
 // -------------------------Реализация HandleFunc-------------------------
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-
-	// admin := false
-
-	// if m.Role != "" {
-	// 	if m.Role == "admin" {
-	// 		admin = true
-	// 	} else {
-	// 		fmt.Println("NO admin")
-	// 	}
-	// }
 
 	tmpl, err := template.ParseFiles(cfg.Html+"index.html", cfg.Html+"footer.html", cfg.Html+"header.html")
 	if err != nil {
 		http.NotFound(w, r)
 	}
 
-	var ct categoty
+	var ct series
 	err = ct.Select()
 	if err != nil {
 		fmt.Println("Error - main.go ct.Select()", err.Error())
 	}
 
 	rows := map[string]interface{}{"Rows": ct.Rows}
-	// tmpl.ExecuteTemplate(w, "header", rows)
-	// role := map[string]interface{}{"Role": admin}
 
-	tmpl.ExecuteTemplate(w, "index", nil) //struct{ Admin string }{Admin: admin}
-	// tmpl.ExecuteTemplate(w, "index", role)
+	tmpl.ExecuteTemplate(w, "index", nil)
 	tmpl.ExecuteTemplate(w, "header", rows)
 }
 
@@ -105,7 +98,7 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 	}
 
-	var ct categoty
+	var ct series
 	err = ct.Select()
 	if err != nil {
 		fmt.Println("Error - main.go ct.Select()", err.Error())
@@ -126,16 +119,9 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println(m.Login, m.Password, m.Name, m.Role)
-	// if m.Name != "" {
-	// men := map[string]interface{}{"Men": m.Name}
 	tmpl.ExecuteTemplate(w, "index", nil)
 	rows := map[string]interface{}{"Rows": ct.Rows}
 	tmpl.ExecuteTemplate(w, "header", rows)
-	// http.Redirect(w, nil, "/", 200)
-	// 	//struct{ Men string }{Men: m.Name}
-	// }
-
-	// tmpl.ExecuteTemplate(w, "index", nil)
 }
 
 func regHandler(w http.ResponseWriter, r *http.Request) {
@@ -144,7 +130,7 @@ func regHandler(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 	}
 
-	var ct categoty
+	var ct series
 	err = ct.Select()
 	if err != nil {
 		fmt.Println("Error - main.go ct.Select()", err.Error())
@@ -195,8 +181,14 @@ func regHandlerPost(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("Error - send email message", err)
 		}
 	}
+	tmpl, err := template.ParseFiles(cfg.Html+"result.html", cfg.Html+"header.html")
+	if err != nil {
+		http.NotFound(w, r)
+	}
 
-	// http.Redirect(w, r, "/", 200)
+	fmt.Fprintf(w, `<h1 class="News-title">Операция успешна выполнена</h1>`)
+
+	tmpl.Execute(w, nil)
 }
 
 func brandHandler(w http.ResponseWriter, r *http.Request) {
@@ -205,13 +197,14 @@ func brandHandler(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 	}
 
-	var ct categoty
+	var ct series
 	err = ct.Select()
 	if err != nil {
 		fmt.Println("Error - main.go ct.Select()", err.Error())
 	}
-
-	tmpl.ExecuteTemplate(w, "brandphone", nil)
+	table := productSelect()
+	data := map[string]interface{}{"Product": table}
+	tmpl.ExecuteTemplate(w, "brandphone", data)
 	rows := map[string]interface{}{"Rows": ct.Rows}
 	tmpl.ExecuteTemplate(w, "header", rows)
 }
@@ -222,13 +215,22 @@ func smartphoneHandler(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 	}
 
-	var ct categoty
+	var ct series
 	err = ct.Select()
 	if err != nil {
 		fmt.Println("Error - main.go ct.Select()", err.Error())
 	}
 
-	tmpl.ExecuteTemplate(w, "smartphone", nil)
+	redmi := "Redmi"
+	xiaomi := "Xiaomi"
+	poco := "Poco"
+
+	res1 := brandSelect(redmi, 8)
+	res2 := brandSelect(xiaomi, 4)
+	res3 := brandSelect(poco, 4)
+
+	br := map[string]interface{}{"Redmi": res1, "Xiaomi": res2, "Poco": res3}
+	tmpl.ExecuteTemplate(w, "smartphone", br)
 	rows := map[string]interface{}{"Rows": ct.Rows}
 	tmpl.ExecuteTemplate(w, "header", rows)
 }
@@ -238,7 +240,7 @@ func discountHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.NotFound(w, r)
 	}
-	var ct categoty
+	var ct series
 	err = ct.Select()
 	if err != nil {
 		fmt.Println("Error - main.go ct.Select()", err.Error())
@@ -254,7 +256,7 @@ func peripheryHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.NotFound(w, r)
 	}
-	var ct categoty
+	var ct series
 	err = ct.Select()
 	if err != nil {
 		fmt.Println("Error - main.go ct.Select()", err.Error())
@@ -308,7 +310,7 @@ func blogHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.NotFound(w, r)
 	}
-	var ct categoty
+	var ct series
 	err = ct.Select()
 	if err != nil {
 		fmt.Println("Error - main.go ct.Select()", err.Error())
@@ -319,9 +321,6 @@ func blogHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println("Error - main.go posts.Select()", err.Error())
 	}
-
-	// fmt.Println(posts.Rows)
-
 	rows := map[string]interface{}{"Rows": ct.Rows}
 
 	this := map[string]interface{}{"Post": posts.Rows}
@@ -372,7 +371,6 @@ func addUserHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func addManagerHandler(w http.ResponseWriter, r *http.Request) {
-	// var us user
 
 	m.Login = r.FormValue("Email")
 	m.Password = r.FormValue("Password")
@@ -452,7 +450,7 @@ func dbTableHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func adminTableHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles(cfg.Html+"adminList.html", cfg.Html+"footer.html")
+	tmpl, err := template.ParseFiles(cfg.Html + "adminList.html")
 	if err != nil {
 		http.NotFound(w, r)
 	}
@@ -461,7 +459,7 @@ func adminTableHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func productTableHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles(cfg.Html+"productList.html", cfg.Html+"footer.html")
+	tmpl, err := template.ParseFiles(cfg.Html + "productList.html")
 	if err != nil {
 		http.NotFound(w, r)
 	}
@@ -470,7 +468,7 @@ func productTableHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func postTableHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles(cfg.Html+"postList.html", cfg.Html+"footer.html")
+	tmpl, err := template.ParseFiles(cfg.Html + "postList.html")
 	if err != nil {
 		http.NotFound(w, r)
 	}
@@ -479,16 +477,17 @@ func postTableHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func purchaseTableHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles(cfg.Html+"purchaseList.html", cfg.Html+"footer.html")
+	tmpl, err := template.ParseFiles(cfg.Html + "purchaseList.html")
 	if err != nil {
 		http.NotFound(w, r)
 	}
 	table := purchaseSelect()
+
 	tmpl.ExecuteTemplate(w, "purchase", table)
 }
 
 func seriesTableHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles(cfg.Html+"seriesList.html", cfg.Html+"footer.html")
+	tmpl, err := template.ParseFiles(cfg.Html + "seriesList.html")
 	if err != nil {
 		http.NotFound(w, r)
 	}
@@ -497,11 +496,12 @@ func seriesTableHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func delUserTableHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles(cfg.Html+"delUserList.html", cfg.Html+"footer.html")
+	tmpl, err := template.ParseFiles(cfg.Html + "delUserList.html")
 	if err != nil {
 		http.NotFound(w, r)
 	}
 	table := delUserSelect()
+
 	tmpl.ExecuteTemplate(w, "delUser", table)
 }
 
@@ -510,8 +510,6 @@ func delUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	usb.Email = r.FormValue("Email")
 	usb.Reason = r.FormValue("Reason")
-	// us.Password = r.FormValue("Password")
-	// us.Name = r.FormValue("Name")
 
 	fmt.Println(usb.Email, usb.Reason)
 
@@ -521,15 +519,15 @@ func delUserHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	err = deleteUsers(db, usb)
 	if err != nil {
-		log.Printf("Insert product failed with error %s", err)
+		log.Printf("Delete DelUsers failed with error %s", err)
 		return
 	}
-	// else {
-	// 	err = sendBan(usb.Email, usb.Reason)
-	// 	if err != nil {
-	// 		fmt.Println("Error - send email message", err)
-	// 	}
-	// }
+
+	err = insertDelUser(db, usb)
+	if err != nil {
+		log.Printf("Insert DelUsers failed with error %s", err)
+		return
+	}
 
 	tmpl, err := template.ParseFiles(cfg.Html+"result.html", cfg.Html+"header.html")
 	if err != nil {
@@ -561,13 +559,14 @@ func addPurchaseHandler(w http.ResponseWriter, r *http.Request) {
 
 	item := purSelect()
 
+	elem := purSelect()
 	i := r.FormValue("count")
 	f.valuePur, _ = strconv.Atoi(i)
 
 	item.TotalPrice = item.Product.Price * float64(f.valuePur)
 	fmt.Println(item.TotalPrice)
-	f.id = idPur + 3
-	f.userPur = r.FormValue("iptuser")
+	f.id = elem.Id + 1
+	f.userPur = r.FormValue("selectuser")
 	b := r.FormValue("iptproduct")
 	f.products, _ = strconv.Atoi(b)
 	f.price = item.Product.Price
@@ -596,4 +595,166 @@ func buyPurchaseHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, `<h1 class="News-title">Операция успешна выполнена</h1>`)
 
 	tmpl.Execute(w, nil)
+}
+
+func delSeriesHandler(w http.ResponseWriter, r *http.Request) {
+	var s series
+
+	s.Name = r.FormValue("Series")
+	fmt.Println(s.Name)
+
+	err = deleteSeries(db, s)
+	if err != nil {
+		log.Printf("Delete DelUsers failed with error %s", err)
+		return
+	}
+
+	tmpl, err := template.ParseFiles(cfg.Html+"result.html", cfg.Html+"header.html")
+	if err != nil {
+		http.NotFound(w, r)
+	}
+
+	fmt.Fprintf(w, `<h1 class="News-title">Операция успешна выполнена</h1>`)
+
+	tmpl.Execute(w, nil)
+
+}
+
+var prod product
+
+func productAddHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles(cfg.Html+"addProduct.html", cfg.Html+"header.html", cfg.Html+"footer.html")
+	if err != nil {
+		http.NotFound(w, r)
+	}
+
+	err = r.ParseForm()
+	if err != nil {
+		fmt.Println("Go")
+	}
+	err = r.ParseMultipartForm(1200)
+	if err != nil {
+		fmt.Println("Go")
+	}
+
+	table := seriesSelect()
+	// r.FormValue("sel")
+	art := r.FormValue("article")
+	prod.Article, _ = strconv.Atoi(art)
+	prod.Series = "Poco M"
+	fmt.Println(prod.Series)
+	prod.Name = r.FormValue("name")
+	prod.Price, _ = strconv.ParseFloat(r.FormValue("price"), 64)
+	count := r.FormValue("count")
+	prod.Count, _ = strconv.Atoi(count)
+	prod.Image = r.FormValue("image")
+	prod.Description = r.FormValue("description")
+
+	fmt.Println("Считан товар - ", prod)
+
+	rows := map[string]interface{}{"Series": table}
+
+	tmpl.ExecuteTemplate(w, "addProduct", rows)
+}
+
+func addPrHandler(w http.ResponseWriter, r *http.Request) {
+	err := insertProduct(db, prod)
+	if err != nil {
+		fmt.Println("Error - insertProduct()", err)
+	}
+
+	tmpl, err := template.ParseFiles(cfg.Html+"result.html", cfg.Html+"header.html")
+	if err != nil {
+		http.NotFound(w, r)
+	}
+
+	fmt.Fprintf(w, `<h1 class="News-title">Операция успешна выполнена</h1>`)
+
+	tmpl.Execute(w, nil)
+}
+
+func postDelHandler(w http.ResponseWriter, r *http.Request) {
+	var pt post
+
+	pt.Id, _ = strconv.Atoi(r.FormValue("ID"))
+	fmt.Println(pt.Id)
+
+	err = deletePost(db, pt)
+	if err != nil {
+		log.Printf("Delete DelPost failed with error %s", err)
+		return
+	}
+
+	tmpl, err := template.ParseFiles(cfg.Html+"result.html", cfg.Html+"header.html")
+	if err != nil {
+		http.NotFound(w, r)
+	}
+
+	fmt.Fprintf(w, `<h1 class="News-title">Операция успешна выполнена</h1>`)
+
+	tmpl.Execute(w, nil)
+}
+
+func productDelHandler(w http.ResponseWriter, r *http.Request) {
+	var pd product
+
+	pd.Article, _ = strconv.Atoi(r.FormValue("ID"))
+
+	err = deleteProduct(db, pd)
+	if err != nil {
+		log.Printf("Delete DelPost failed with error %s", err)
+		return
+	}
+
+	tmpl, err := template.ParseFiles(cfg.Html+"result.html", cfg.Html+"header.html")
+	if err != nil {
+		http.NotFound(w, r)
+	}
+
+	fmt.Fprintf(w, `<h1 class="News-title">Операция успешна выполнена</h1>`)
+
+	tmpl.Execute(w, nil)
+}
+
+func statHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles(cfg.Html+"statistics.html", cfg.Html+"footer.html", cfg.Html+"header.html")
+	if err != nil {
+		http.NotFound(w, r)
+	}
+	redmi := "Redmi"
+	xiaomi := "Xiaomi"
+	poco := "Poco"
+
+	col1 := valueBrandSelect(redmi)
+	col2 := valueBrandSelect(xiaomi)
+	col3 := valueBrandSelect(poco)
+
+	resRedmi := priceBrandSelect(redmi)
+	var result1 float64
+	for _, v := range resRedmi {
+		result1 += v
+	}
+
+	resXiaomi := priceBrandSelect(xiaomi)
+	var result2 float64
+	for _, b := range resXiaomi {
+		result2 += b
+	}
+
+	resPoco := priceBrandSelect(poco)
+	var result3 float64
+	for _, c := range resPoco {
+		result3 += c
+	}
+
+	pr, dt := purchPriceSelect()
+	type area struct {
+		Price []float64
+		Date  []string
+	}
+	var ar area
+	ar.Price = pr
+	ar.Date = dt
+	rows := map[string]interface{}{"Col1": col1, "Col2": col2, "Col3": col3, "TPRedmi": result1, "TPXiaomi": result2, "TPPoco": result3, "Date": dt, "Price": pr}
+	tmpl.ExecuteTemplate(w, "stat", rows)
 }

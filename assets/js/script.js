@@ -29,7 +29,7 @@ function authWindow() {
     let enter = document.createElement("button");
     enter.textContent = "Войти";
     enter.className = "pre-order__button";
-    enter.formAction = "/login";
+    enter.href = "/login";
     enter.onclick = Login.bind(enter, login, password);
 
 

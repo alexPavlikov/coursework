@@ -212,3 +212,8 @@ function createModalProduct() {
         window.parent.location = window.parent.location.href;
     }
 }
+
+
+var e = document.getElementById("selectseries");
+var value = e.value;
+var text = e.options[e.selectedIndex].text;

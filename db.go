@@ -594,9 +594,22 @@ func insertPurchase(db *sql.DB, f foo) error {
 	}
 
 	defer stmt.Close()
-	f.id = 11
-	f.userPur = "a.pavlikov22@gmail.com"
-	f.products = 5435
+	queryId := `SELECT count(*) FROM "Purchase";`
+	rowsId, er := db.Query(queryId)
+	if er != nil {
+		fmt.Println(er)
+	}
+	defer rowsId.Close()
+
+	for rowsId.Next() {
+		if err := rowsId.Scan(&f.id); err != nil {
+			log.Fatal(err)
+		}
+		f.id += 1
+	}
+	fmt.Println(f.id)
+	//f.userPur = "a.pavlikov22@gmail.com"
+	//f.products = 5435
 	fmt.Println(f.id, f.userPur, f.products, f.valuePur, f.price, f.data, f.tprice)
 	res, err := stmt.ExecContext(ctx, f.id, f.userPur, f.products, f.valuePur, f.price, f.data, f.tprice)
 	if err != nil {
@@ -605,7 +618,7 @@ func insertPurchase(db *sql.DB, f foo) error {
 	}
 
 	queryRes := fmt.Sprintf(`UPDATE "Products" SET "Count" = "Count" - %d WHERE "Article" =  '%d'`, f.valuePur, f.products)
-	_, er := db.Query(queryRes)
+	_, er = db.Query(queryRes)
 	if er != nil {
 		fmt.Println(er)
 	}
@@ -667,7 +680,7 @@ func insertProduct(db *sql.DB, prod product) error {
 		return err
 	}
 	defer stmt.Close()
-	prod.Series = "Poco"
+	//prod.Series = "Poco"
 	res, err := stmt.ExecContext(ctx, prod.Article, prod.Series, prod.Name, prod.Price, prod.Count, prod.Image, prod.Description)
 	if err != nil {
 		log.Printf("Error %s when inserting row into products table", err)
@@ -812,4 +825,56 @@ func purchPriceSelect() ([]float64, []string) {
 	}
 
 	return employeesPrice, employeesData
+}
+
+func peripherySelect() []product {
+	rows, err := db.Query(`SELECT * FROM "Periphery"`)
+	if err != nil {
+		fmt.Println("Error = peripherySelect() db.go")
+		panic(err)
+	}
+	employee := product{}
+	employeesProduct := []product{}
+
+	for rows.Next() {
+		var article, count int
+		var price float64
+		var series, name, image, description string
+		err = rows.Scan(&article, &series, &name, &price, &count, &image, &description)
+		if err != nil {
+			fmt.Println("Error = peripherySelect() rows.Next()  db.go")
+			panic(err)
+		}
+		employee.Article = article
+		employee.Series = series
+		employee.Name = name
+		employee.Price = price
+		employee.Count = count
+		employee.Image = image
+		employee.Description = description
+		employeesProduct = append(employeesProduct, employee)
+
+	}
+	//defer db.Close()
+	return employeesProduct
+}
+
+type us struct {
+	email string
+	pass  string
+	name  string
+}
+
+func LogUser(log, pass string) us {
+
+	var test us
+	query := fmt.Sprintf(`SELECT * FROM "Users" WHERE "Email" = '%s' and "Password" = '%s'`, log, pass)
+	res, err := db.Query(query)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	res.Scan(&test.email, &test.pass, &test.name)
+
+	return test
 }

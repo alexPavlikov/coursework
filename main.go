@@ -85,6 +85,10 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Error - main.go ct.Select()", err.Error())
 	}
 
+	log := r.FormValue("lgn")
+	pass := r.FormValue("pass")
+	LogUser(log, pass)
+
 	rows := map[string]interface{}{"Rows": ct.Rows}
 
 	tmpl.ExecuteTemplate(w, "index", nil)
@@ -92,11 +96,6 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
-
-	tmpl, er := template.ParseFiles(cfg.Html+"index.html", cfg.Html+"footer.html", cfg.Html+"header.html")
-	if er != nil {
-		http.NotFound(w, r)
-	}
 
 	var ct series
 	err = ct.Select()
@@ -106,7 +105,7 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 
 	data := json.NewDecoder(r.Body)
 	data.DisallowUnknownFields()
-	err := data.Decode(&m)
+	err = data.Decode(&m)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
@@ -117,11 +116,22 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-
+	//rows := map[string]interface{}{"Rows": ct.Rows}
 	fmt.Println(m.Login, m.Password, m.Name, m.Role)
-	tmpl.ExecuteTemplate(w, "index", nil)
-	rows := map[string]interface{}{"Rows": ct.Rows}
-	tmpl.ExecuteTemplate(w, "header", rows)
+
+	// tmpl, err := template.ParseFiles(cfg.Html+"result.html", cfg.Html+"header.html")
+	// if err != nil {
+	// 	http.NotFound(w, r)
+	// }
+
+	fmt.Fprintf(w, `<h1 class="News-title">Вы вошли в аккаунт email:%s; password: %s; name:%s</h1>`, m.Login, m.Password, m.Name)
+
+	//
+	//tmpl.ExecuteTemplate(w, "header", rows)
+	//tmpl.Execute(w, rows)
+	// tmpl.ExecuteTemplate(w, "index", nil)
+	// rows := map[string]interface{}{"Rows": ct.Rows}
+	// tmpl.ExecuteTemplate(w, "header", rows)
 }
 
 func regHandler(w http.ResponseWriter, r *http.Request) {
@@ -262,7 +272,9 @@ func peripheryHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Error - main.go ct.Select()", err.Error())
 	}
 
-	tmpl.ExecuteTemplate(w, "periphery", nil)
+	per := peripherySelect()
+	row := map[string]interface{}{"Periphery": per}
+	tmpl.ExecuteTemplate(w, "periphery", row)
 	rows := map[string]interface{}{"Rows": ct.Rows}
 	tmpl.ExecuteTemplate(w, "header", rows)
 }
@@ -567,7 +579,7 @@ func addPurchaseHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(item.TotalPrice)
 	f.id = elem.Id + 1
 	f.userPur = r.FormValue("selectuser")
-	b := r.FormValue("iptproduct")
+	b := r.FormValue("selectproduct")
 	f.products, _ = strconv.Atoi(b)
 	f.price = item.Product.Price
 	f.tprice = item.TotalPrice
@@ -641,7 +653,8 @@ func productAddHandler(w http.ResponseWriter, r *http.Request) {
 	// r.FormValue("sel")
 	art := r.FormValue("article")
 	prod.Article, _ = strconv.Atoi(art)
-	prod.Series = "Poco M"
+	//prod.Series = "Poco" //Poco M
+	prod.Series = r.FormValue("series")
 	fmt.Println(prod.Series)
 	prod.Name = r.FormValue("name")
 	prod.Price, _ = strconv.ParseFloat(r.FormValue("price"), 64)

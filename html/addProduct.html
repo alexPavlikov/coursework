@@ -26,11 +26,12 @@
 
                 <form method="post" action="">
                     <input id="article" placeholder="Ввдеите Id товара" name="article" type="text">
-                    <select id="selectseries">
+                    <!-- <select id="selectseries">
                         {{range $_, $c := .Series }}
-                        <option id="sel">{{ $c.Name }}</option>
+                        <option selected="selected" id="sel">{{ $c.Name }}</option>
                         {{ end }}                                                    
-                    </select>
+                    </select> -->
+                    <input id="series" placeholder="Введите серию товара" name="series" type="text">
                     <input id="name" placeholder="Введите название товара" name="name" type="text">
                     <input id="price" placeholder="Введите цену товара" name="price" type="text">
                     <input min="1" id="count" placeholder="Введите кол-во товара на складе" name="count" type="number">

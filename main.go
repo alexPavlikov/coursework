@@ -123,7 +123,10 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 	// if err != nil {
 	// 	http.NotFound(w, r)
 	// }
-
+	err = loginWarning(m.Login, m.Name)
+	if err != nil {
+		fmt.Println("Возникла ошибка в отправе сообщения")
+	}
 	fmt.Fprintf(w, `<h1 class="News-title">Вы вошли в аккаунт email:%s; password: %s; name:%s</h1>`, m.Login, m.Password, m.Name)
 
 	//
@@ -285,9 +288,9 @@ func createPostHandler(w http.ResponseWriter, r *http.Request) {
 	pst.Image = r.FormValue("Image")
 	pst.Title = r.FormValue("Title")
 	pst.Text = r.FormValue("Text")
-	data := time.Now()
-	data.Format("2006-01-02 15:04")
-	pst.Data = data.String()
+	data := time.Now().Format("2006-01-02 15:04")
+	//data.
+	pst.Data = data
 
 	fmt.Println(pst.Image, pst.Title, pst.Text, pst.Data)
 

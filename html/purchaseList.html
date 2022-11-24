@@ -20,9 +20,12 @@
 <script>
     window.onload = function () {
         var values = document.getElementsByClassName("tp");
+        var col = document.getElementsByClassName("val");
         var sum = 0;
+        var end = 0;
         for (var i = 0, count = values.length; i < count; i++) {
             sum += Number(values[i].textContent || values[i].innerText);
+            end += Number(col[i].textContent || col[i].innerText);
         }
         // document.getElementById("total").value = sum;
         let element = document.querySelector('#total');
@@ -36,7 +39,6 @@
 </script>
 
 <body>
-    
 
     <admin class="admin">
         <a href="/purchaseList/addPruchase" class="admin-btn"><i class="fas fa-plus"></i></a>
@@ -87,7 +89,7 @@
             <td>{{ .Id }}</td>
             <td>{{ .User }} </td>
             <td>{{ .Product }} </td>
-            <td>{{ .Count }}</td>
+            <td class="val">{{ .Count }}</td>
             <td>{{ .Price }} </td>
             <td>{{ .Date }} </td>
             <td class="tp">{{ .TotalPrice }}</td>

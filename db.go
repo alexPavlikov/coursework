@@ -131,7 +131,7 @@ func prepareQueries() {
 		fmt.Println("Ошибка запроса Select#Manager ")
 	}
 
-	Queries["Select#Posts"], err = db.Prepare(`SELECT * FROM "Posts"`)
+	Queries["Select#Posts"], err = db.Prepare(`SELECT * FROM "Posts" ORDER BY "Id" DESC`)
 	if err != nil {
 		fmt.Println("Ошибка запроса Select#Posts ")
 	}

@@ -1274,18 +1274,6 @@ footer {
     color: red !important;
 }
 
-
-/* <main id="main">
-    <label for="">Добро пожаловать!</label>
-    <!-- <label for="userLog">Логин:</label> -->
-    <input id="userLog" type="text" placeholder="Введите ваш логин">
-    <!-- <label for="userPass">Пароль:</label> -->
-    <input id="userPass" type="password" placeholder="Введите ваш пароль">
-    <div class="b_list">
-        <button onclick="Login.bind(button, userLog, userPass)" class="pre-order__button">Войти</button>
-        <button class="pre-order__button">Регистрация</button>
-    </div>
-</main> */
 .dialWin {
     position: absolute;
     right: 35%;
@@ -1316,7 +1304,6 @@ footer {
     /* margin: 0 20%; */
 
 }
-
 
 .news .post {
     
@@ -1354,7 +1341,7 @@ footer {
     height: 20%;
     width: 100%;
     font-size: 24px;
-    margin: 15px auto;
+    /* margin: 15px auto; */
     display: flex;
     justify-content: center;
 }
@@ -1373,7 +1360,7 @@ footer {
     height: 15%;
     width: 94%;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     margin-bottom: 10px;
     margin-left: 15px;
     font-size: 12px;
@@ -1381,7 +1368,21 @@ footer {
 
 .news .post .info .more i {
     margin-right: 5px;
+    font-size: 20px; 
+    margin-left: 500px;
+    color: #ff6900;
+    transition: all .2s linear;
 }
+
+.news .post .info .more i:hover {
+    cursor: pointer;
+}
+
+/* .news .post .info .more i:active {
+    cursor: pointer;
+    color: #ff6900;
+    opacity: .9;
+} */
 
 .admin {
 
@@ -1845,4 +1846,8 @@ img:nth-child(4){animation-delay:0}
     padding: 5px 10px;
     font-size: 20px;
     min-height: 75px;
+}
+
+#ent {
+    margin-right: 20px;
 }

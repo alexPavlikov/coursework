@@ -2,6 +2,18 @@
 
 {{ template "header" }}
 
+<script>
+   
+    document.addEventListener('click', ({ target: t }) => {
+  if (t.classList.contains('fa-heart')) {
+    const index = [...document.querySelectorAll('.fa-heart')].indexOf(t);
+    const count = document.querySelectorAll('.photos__like-count')[index];
+    count.classList.toggle('active');
+    count.innerText -= [ 1, -1 ][+count.classList.contains('active')];
+  }
+});
+</script>
+
 <admin class="admin">
     <div onclick="createModalAddPost()" class="admin-btn"><i class="fas fa-plus"></i></div>
     <div onclick="createModalDatabase()" class="admin-btn"><i class="fa-solid fa-database"></i></div>
@@ -55,11 +67,11 @@
             <div class="news">
                 {{ range $_, $p := .Post }}
                 <div class="post">
-                    <img src="{{ $p.Image }}" alt="">
+                    <img src="{{ $p.Image }}" alt="{{ $p.Id }}">
                     <div class="info">
                         <h3>{{ $p.Title }}</h3>
                         <div class="text">{{ $p.Text }}</div>
-                        <div class="more">{{ $p.Data }}<span><i class="fa-regular fa-eye"></i> {{ $p.Id }}</span></div>
+                        <div class="more">{{ $p.Data }}<i class="fa-solid fa-heart"></i><span class="photos__like-count">0</span></div>
                     </div>
                 </div>
                 {{ end }}

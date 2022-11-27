@@ -18,17 +18,13 @@ h1,h2,h3,h4,h5,h6 {
 
 .section {
     width: 100%;
-    /* padding-top: 120px; */
 }
 
 .registration {
-    background-color:rgb(255, 124, 36);
-    
+    background-color:rgb(255, 124, 36); 
     width: 40%;
     margin: 150px 30%;
-    
     min-height: 530px;
-    /* filter: drop-shadow(10px 8px 120px rgba(0, 0, 0, 0.250)); */
     box-shadow: 20px -15px 10px 5px rgba(0, 0, 0, .2);
     margin-bottom: 50px;
     padding-bottom: 50px;
@@ -90,8 +86,3 @@ h1,h2,h3,h4,h5,h6 {
 .registration button:active {
     opacity: .6;
 }
-
-/* .body h1 {
-    padding-top: 100px;
-    font-weight: 700;
-} */

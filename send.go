@@ -17,7 +17,6 @@ func send(email string, pass string, name string) error {
 
 	message := fmt.Sprintf(`Приветствуем, %s, поздравляем Вас с успешной регистрацией, в честь этого дарим вам скидочный купон 5 процентов на любой товар - 'NewUser'! Не забудьте ваш пароль - %s`, name, pass)
 	m.SetBody("text/plain", message)
-
 	d := gomail.NewDialer("smtp.gmail.com", 587, "a.pavlikov2002@gmail.com", "isei dkte iiwl wior")
 
 	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}

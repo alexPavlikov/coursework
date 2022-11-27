@@ -198,8 +198,6 @@ func (posts *post) Select() error {
 		err = errors.New("db.go Select() - Select#Posts")
 		return err
 	}
-	// defer stmtPost.Close()
-
 	rows, err := stmtPost.Query()
 	if err != nil {
 		return err
@@ -219,7 +217,6 @@ func (posts *post) Select() error {
 			Data:  posts.Data,
 		})
 	}
-
 	return nil
 }
 
@@ -330,7 +327,6 @@ func dbSelect() []user {
 		employees = append(employees, employee)
 
 	}
-	//defer db.Close()
 	return employees
 }
 
@@ -357,7 +353,6 @@ func adminSelect() []manager {
 		employeesAdmin = append(employeesAdmin, employee)
 
 	}
-	//defer db.Close()
 	return employeesAdmin
 }
 
@@ -387,7 +382,6 @@ func postSelect() []post {
 
 	}
 	countPosts = len(employeesPost)
-	//defer db.Close()
 	return employeesPost
 }
 
@@ -419,7 +413,6 @@ func productSelect() []product {
 		employeesProduct = append(employeesProduct, employee)
 
 	}
-	//defer db.Close()
 	return employeesProduct
 }
 
@@ -454,7 +447,6 @@ func purchaseSelect() []purchase {
 		employeesPurchase = append(employeesPurchase, employee)
 
 	}
-	//defer db.Close()
 	return employeesPurchase
 }
 
@@ -475,9 +467,7 @@ func seriesSelect() []series {
 		}
 		employee.Name = name
 		employee.Rows = append(employee.Rows, employee)
-
 	}
-	//defer db.Close()
 	return employee.Rows
 }
 
@@ -502,8 +492,6 @@ func delUserSelect() []userBanned {
 		employeeUserBan.Rows = append(employeeUserBan.Rows, employeeUserBan)
 
 	}
-	//defer db.Close()
-
 	return employeeUserBan.Rows
 }
 
@@ -579,7 +567,6 @@ func purSelect() pur {
 
 		stuff.User.Rows = append(stuff.User.Rows, stuff.User)
 	}
-	//defer db.Close()
 	return stuff
 }
 
@@ -608,8 +595,6 @@ func insertPurchase(db *sql.DB, f foo) error {
 		f.id += 1
 	}
 	fmt.Println(f.id)
-	//f.userPur = "a.pavlikov22@gmail.com"
-	//f.products = 5435
 	fmt.Println(f.id, f.userPur, f.products, f.valuePur, f.price, f.data, f.tprice)
 	res, err := stmt.ExecContext(ctx, f.id, f.userPur, f.products, f.valuePur, f.price, f.data, f.tprice)
 	if err != nil {
@@ -680,7 +665,6 @@ func insertProduct(db *sql.DB, prod product) error {
 		return err
 	}
 	defer stmt.Close()
-	//prod.Series = "Poco"
 	res, err := stmt.ExecContext(ctx, prod.Article, prod.Series, prod.Name, prod.Price, prod.Count, prod.Image, prod.Description)
 	if err != nil {
 		log.Printf("Error %s when inserting row into products table", err)

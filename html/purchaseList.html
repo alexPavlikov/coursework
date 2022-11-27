@@ -14,7 +14,7 @@
 
     <link rel="stylesheet" href="/assets/css/awesome/css/all.css" />
 
-    <title>Document</title>
+    <title>Таблица продаж</title>
 </head>
 
 <script>
@@ -27,14 +27,12 @@
             sum += Number(values[i].textContent || values[i].innerText);
             end += Number(col[i].textContent || col[i].innerText);
         }
-        // document.getElementById("total").value = sum;
         let element = document.querySelector('#total');
         let elem = document.querySelector('#profit');
         element.innerHTML = sum;
 
         var pr = sum * 0.3;
         elem.innerHTML = pr;
-        //alert(sum);
     }
 </script>
 

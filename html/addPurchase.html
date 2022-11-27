@@ -10,7 +10,7 @@
     
     <link rel="stylesheet" href="/assets/css/awesome/css/all.css" />
 
-    <title>Окно регистрации</title>
+    <title>Окно покупки</title>
 </head>
 {{ template "header" }}
 
@@ -23,15 +23,11 @@
             <div>Оформление покупки</div>
 
                 <form action="#" method="post" action="">
-                    <!-- <div> -->
-                        
                         <select name="selectuser" id="selectuser">
                             {{range $_, $e := .User }} 
                             <option >{{ $e.Email }}</option>
                             {{ end }}                                                    
                         </select>
-                    <!-- </div> -->
-                    
                     <select name="selectproduct" id="selectproduct">
                         {{range $_, $c := .Product }}
                         <option id="iptproduct">{{ $c.Article }}</option>

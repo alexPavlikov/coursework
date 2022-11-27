@@ -3,7 +3,6 @@ function authWindow() {
     let main =  document.createElement("main");
     main.className = "main";
     main.id = "main";
-
     let closeMain = document.createElement("i");
     closeMain.classList.add("fas", "fa-times");
     closeMain.onclick = function () {

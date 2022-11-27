@@ -15,8 +15,6 @@ import (
 var m manager
 var pe purchase
 
-// var posts post
-
 func main() {
 	fmt.Println("Listen on - " + cfg.ServerHost + ":" + cfg.ServerPort)
 
@@ -116,13 +114,7 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	//rows := map[string]interface{}{"Rows": ct.Rows}
 	fmt.Println(m.Login, m.Password, m.Name, m.Role)
-
-	// tmpl, err := template.ParseFiles(cfg.Html+"result.html", cfg.Html+"header.html")
-	// if err != nil {
-	// 	http.NotFound(w, r)
-	// }
 	err = loginWarning(m.Login, m.Name)
 	if err != nil {
 		fmt.Println("Возникла ошибка в отправе сообщения")
@@ -216,7 +208,8 @@ func brandHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Error - main.go ct.Select()", err.Error())
 	}
 	table := productSelect()
-	data := map[string]interface{}{"Product": table}
+	per := peripherySelect()
+	data := map[string]interface{}{"Product": table, "Periphery": per}
 	tmpl.ExecuteTemplate(w, "brandphone", data)
 	rows := map[string]interface{}{"Rows": ct.Rows}
 	tmpl.ExecuteTemplate(w, "header", rows)
@@ -289,7 +282,6 @@ func createPostHandler(w http.ResponseWriter, r *http.Request) {
 	pst.Title = r.FormValue("Title")
 	pst.Text = r.FormValue("Text")
 	data := time.Now().Format("2006-01-02 15:04")
-	//data.
 	pst.Data = data
 
 	fmt.Println(pst.Image, pst.Title, pst.Text, pst.Data)
@@ -320,10 +312,15 @@ func createPostHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, nil)
 }
 
+var views int64
+
 func blogHandler(w http.ResponseWriter, r *http.Request) {
+
 	tmpl, err := template.ParseFiles(cfg.Html+"blog.html", cfg.Html+"footer.html", cfg.Html+"header.html")
 	if err != nil {
 		http.NotFound(w, r)
+	} else {
+		views++
 	}
 	var ct series
 	err = ct.Select()
@@ -336,9 +333,10 @@ func blogHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println("Error - main.go posts.Select()", err.Error())
 	}
+
 	rows := map[string]interface{}{"Rows": ct.Rows}
 
-	this := map[string]interface{}{"Post": posts.Rows}
+	this := map[string]interface{}{"Post": posts.Rows, "Views": views}
 	tmpl.ExecuteTemplate(w, "blog", this)
 	tmpl.ExecuteTemplate(w, "header", rows)
 
@@ -587,7 +585,6 @@ func addPurchaseHandler(w http.ResponseWriter, r *http.Request) {
 	f.price = item.Product.Price
 	f.tprice = item.TotalPrice
 	f.data = time.Now().Format("2006-01-02 15:04")
-	//maybe error
 
 	purch := map[string]interface{}{"User": item.User.Rows, "Product": item.Product.Rows, "Price": item.Product.Price, "TotalPrice": item.TotalPrice}
 	tmpl.ExecuteTemplate(w, "addPurchase", purch)
@@ -653,10 +650,8 @@ func productAddHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	table := seriesSelect()
-	// r.FormValue("sel")
 	art := r.FormValue("article")
 	prod.Article, _ = strconv.Atoi(art)
-	//prod.Series = "Poco" //Poco M
 	prod.Series = r.FormValue("series")
 	fmt.Println(prod.Series)
 	prod.Name = r.FormValue("name")

@@ -36,7 +36,6 @@ func init() {
 	if err != nil {
 		log.Fatal("Error - Статистика файла ", err.Error())
 	}
-
 	reabByte := make([]byte, stat.Size())
 
 	_, err = file.Read(reabByte)

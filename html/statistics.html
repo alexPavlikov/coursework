@@ -14,7 +14,7 @@
 
     <link rel="stylesheet" href="/assets/css/awesome/css/all.css" />
 
-    <title>Document</title>
+    <title>Статистика</title>
 </head>
 
 {{ template "header" }}
@@ -49,22 +49,17 @@
     <script src="https://cdn.anychart.com/js/latest/anychart-bundle.min.js"></script>
     <script>
         anychart.onDocumentLoad(function() {
-            // create chart and set data
-
             let t1 = document.getElementById("spr").textContent;
             let t2 = document.getElementById("spx").textContent;
             let t3 = document.getElementById("spp").textContent;     
- 
-            // console.log(t1, t2, t3);
+
             var chart = anychart.column([
                 
                 ["Redmi", Number(t1)],
                 ["Xiaomi", Number(t2)],
                 ["Poco", Number(t3)]
             ]);
-            // set chart title
             chart.title("Кол-во типов телефонов в магазине по фирмам (ед.)");
-            // set chart container and draw
             chart.container("container1").draw();
         });
 
@@ -73,27 +68,19 @@
             let t6 = document.getElementById("po").textContent; 
 
         anychart.onDocumentLoad(function() {
-            // create chart and set data
-            
 
-            // console.log(t4, t5, t6);
             var chart = anychart.column([
                 
                 ["Redmi", Number(t4)],
                 ["Xiaomi", Number(t5)],
                 ["Poco", Number(t6)]
             ]);
-            // set chart title
             chart.title("Общая цена товара в наличие по фирмам (рос.руб) ");
-            // set chart container and draw
             chart.container("container2").draw();
         });
 
 
         anychart.onDocumentLoad(function() {
-            // create chart and set data
-            
-
             var data = [
         {x: "Redmi", value: Number(t4)},
         {x: "Xiaomi", value: Number(t5)},
@@ -104,7 +91,6 @@
         chart.innerRadius("30%");
 
         chart.container("container-circel");
-
         chart.draw();
         });   
 
@@ -130,10 +116,7 @@
                 chart.draw();
         }); 
 
-    </script>
-
-
-        
+    </script>     
     
     <script src="/assets/js/script.js"></script>
     <script src="/assets/js/admin.js"></script>

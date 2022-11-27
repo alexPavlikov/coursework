@@ -9,7 +9,8 @@
     const index = [...document.querySelectorAll('.fa-heart')].indexOf(t);
     const count = document.querySelectorAll('.photos__like-count')[index];
     count.classList.toggle('active');
-    count.innerText -= [ 1, -1 ][+count.classList.contains('active')];
+    count.innerText -= [ 1, -1 ][+count.classList.contains('active')];  
+
   }
 });
 </script>
@@ -64,6 +65,7 @@
 
     <section class="section"> 
         <div class="container-rec">
+            <i id="inc" class="fa-solid fa-eye">{{ .Views }}</i>
             <div class="news">
                 {{ range $_, $p := .Post }}
                 <div class="post">
@@ -71,30 +73,23 @@
                     <div class="info">
                         <h3>{{ $p.Title }}</h3>
                         <div class="text">{{ $p.Text }}</div>
-                        <div class="more">{{ $p.Data }}<i class="fa-solid fa-heart"></i><span class="photos__like-count">0</span></div>
+                        <div class="more"><div>{{ $p.Data }}</div>
+                            <div>
+                                <i class="fa-solid fa-heart"></i><span id="span" class="photos__like-count">0</span>
+                                <i id="{{ $p.Id }}" class="fa-solid fa-eye way"></i><span class="views_count"></span>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
                 {{ end }}
+                
             </div>
         </div>
     </section>    
 
-    <!-- {{range $_, $e := .Post }}
-    <tr>
-        <td>{{ $e.Id }}</td>
-        <td>{{ $e.Title }}</td>
-        <td>{{ $e.Text }} </td>
-        <td>{{ $e.Image }} </td>
-        <td>{{ $e.Data }}</td>
-        
-    </tr>
-    {{ end }} -->
-    <!-- <i id="mark"></i> -->
-
     <script src="/assets/js/admin.js"></script>
     <script src="/assets/js/script.js"></script>
-    
-    <!-- <h1>{{.}}</h1> -->
 </body>
 
 {{ template "footer" }}

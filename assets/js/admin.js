@@ -20,7 +20,6 @@ function changeImages(elem) {
     }
 }
 
-
 function createModalAddPost() {
     
     
@@ -32,7 +31,6 @@ function createModalAddPost() {
     let closeMain = document.createElement("i");
     closeMain.classList.add("fas", "fa-times");
     closeMain.onclick = function () {
-        // this.parentElement.parentElement.remove();
         this.parentElement.parentElement.classList.remove("visual");
     };
 
@@ -43,9 +41,6 @@ function createModalAddPost() {
     if (form.append(closeMain)) {
         window.parent.location = window.parent.location.href;
     }
-    
-    
-    // document.body.append(form);
 }
 
 function createModalDatabase() {
@@ -61,20 +56,16 @@ function createModalDatabase() {
     }
    
     closeMain.onclick = function () {
-        // this.parentElement.parentElement.remove();
         this.parentElement.parentElement.classList.remove("visual");
     };
 
     let blog = document.querySelector(".db");
     blog.classList.add("visual");
-   
 
     if (db.append(closeMain)) {
         window.parent.location = window.parent.location.href;
     }
-    
-    
-    // document.body.append(form);
+
 }
 
 
@@ -87,19 +78,16 @@ function createModalDelete() {
     let closeMain = document.createElement("i");
     closeMain.classList.add("fas", "fa-times");
     closeMain.onclick = function () {
-        // this.parentElement.parentElement.remove();
         this.parentElement.parentElement.classList.remove("visual");
     };
 
     let blog = document.querySelector(".bl");
-    blog.classList.add("visual");
-   
+    blog.classList.add("visual");  
 
     if (form.append(closeMain)) {
         window.parent.location = window.parent.location.href;
     }
 }
-
 
 function createAdminAdd() {
     let form = document.querySelector(".admin-add-adm");
@@ -110,7 +98,6 @@ function createAdminAdd() {
     let closeMain = document.createElement("i");
     closeMain.classList.add("fas", "fa-times");
     closeMain.onclick = function () {
-        // this.parentElement.parentElement.remove();
         this.parentElement.parentElement.classList.remove("visual");
     };
 
@@ -132,7 +119,6 @@ function createModalAdd() {
     let closeMain = document.createElement("i");
     closeMain.classList.add("fas", "fa-times");
     closeMain.onclick = function () {
-        // this.parentElement.parentElement.remove();
         this.parentElement.parentElement.classList.remove("visual");
     };
 
@@ -154,7 +140,6 @@ function createModalSerial() {
     let closeMain = document.createElement("i");
     closeMain.classList.add("fas", "fa-times");
     closeMain.onclick = function () {
-        // this.parentElement.parentElement.remove();
         this.parentElement.parentElement.classList.remove("visual");
     };
 
@@ -177,7 +162,6 @@ function delModalSerial() {
     let closeMain = document.createElement("i");
     closeMain.classList.add("fas", "fa-times");
     closeMain.onclick = function () {
-        // this.parentElement.parentElement.remove();
         this.parentElement.parentElement.classList.remove("visual");
     };
 
@@ -200,7 +184,6 @@ function createModalProduct() {
     let closeMain = document.createElement("i");
     closeMain.classList.add("fas", "fa-times");
     closeMain.onclick = function () {
-        // this.parentElement.parentElement.remove();
         this.parentElement.parentElement.classList.remove("visual");
     };
 
@@ -212,7 +195,6 @@ function createModalProduct() {
         window.parent.location = window.parent.location.href;
     }
 }
-
 
 var e = document.getElementById("selectseries");
 var value = e.value;

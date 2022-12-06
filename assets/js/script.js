@@ -25,12 +25,12 @@ function authWindow() {
     let b_list = document.createElement("div");
     b_list.className = "b_list";
 
-    let enter = document.createElement("button");
+    let enter = document.createElement("a");
     enter.textContent = "Войти";
     enter.className = "pre-order__button";
     enter.id = "ent";
     enter.onclick = Login.bind(enter, login, password);
-
+    enter.href = "/login/access";
 
     if(enter==true) {
         dialogWindow();
@@ -58,7 +58,6 @@ function authWindow() {
 *@param {HTMLInputElement} pass
 */
 function Login(log, pass) {
-
     let isCorrect = true;
 
     if(!log || log.value.length < 10) {

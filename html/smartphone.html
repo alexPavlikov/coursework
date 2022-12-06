@@ -15,6 +15,8 @@
 
 {{ template "header" }}
 
+<script src='//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js'></script>
+
 <body>
 
 <div id="Xiaomi" class="section">
@@ -80,8 +82,10 @@
                     <div class="store-week_oldPrice">55 990</div>
                 </div>
                 <div class="butn">
-                    <button class="pre-order__button">Купить</button>
-                    <button class="pre-order__button white">Подробнее</button>
+                    <form action="brandphone/access" method="GET" enctype="multipart/form-data">
+                        <a style="color: white;" href="/purchaseList/addPruchase" class="pre-order__button">Купить</a>
+                        <input id="{{ $b.Name }}" type="submit" class="pre-order__button white sub" value="Подробнее"> 
+                    </form>
                 </div>
             </div>
             <div class="item-img"><img src="{{ $b.Image }}" alt=""></div>
@@ -131,8 +135,10 @@
                     <div class="store-week_oldPrice">55 990</div>
                 </div>
                 <div class="butn">
-                    <button class="pre-order__button">Купить</button>
-                    <button class="pre-order__button white">Подробнее</button>
+                    <form action="brandphone/access" method="GET" enctype="multipart/form-data">
+                        <a style="color: white;" href="/purchaseList/addPruchase" class="pre-order__button">Купить</a>
+                        <input id="{{ $b.Name }}" type="submit" class="pre-order__button white sub" value="Подробнее"> 
+                    </form>
                 </div>
             </div>
             <div class="item-img"><img src="{{ $b.Image }}" alt=""></div>
@@ -181,8 +187,10 @@
                     <div class="store-week_oldPrice">55 990</div>
                 </div>
                 <div class="butn">
-                    <button class="pre-order__button">Купить</button>
-                    <button class="pre-order__button white">Подробнее</button>
+                    <form action="brandphone/access" method="GET" enctype="multipart/form-data">
+                        <a style="color: white;" href="/purchaseList/addPruchase" class="pre-order__button">Купить</a>
+                        <input id="{{ $b.Name }}" type="submit" class="pre-order__button white sub" value="Подробнее"> 
+                    </form>
                 </div>
             </div>
             <div class="item-img"><img src="{{ $b.Image }}" alt=""></div>
@@ -193,6 +201,27 @@
 
     <script src="/assets/js/script.js"></script>
 </body>
+
+<script>
+    var clickId = '';
+                    let cache = '#';
+                    $(document).ready(function(){
+                        $('.sub').click(function(e) {
+                        clickId = $(this).attr('id');
+                            // alert('fa'+clickId);
+                            $.ajax({
+                                url: '/brandphone',
+                                type: 'GET',
+                                dataType: 'html',
+                                data : { new_post_data: clickId},
+                                success : function(data) {
+                                $('#result').html(data);
+                               },
+                            });
+                             alert(new_post_data);
+                        });
+                    });
+</script>
 
 {{template "footer"}}
 

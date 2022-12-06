@@ -30,7 +30,7 @@
                         </select>
                     <select name="selectproduct" id="selectproduct">
                         {{range $_, $c := .Product }}
-                        <option id="iptproduct">{{ $c.Article }}</option>
+                        <option id="iptproduct">{{ $c.Article }}</option><span>{{ $c.Name }}</span>
                         {{ end }}                                                    
                     </select>
                     

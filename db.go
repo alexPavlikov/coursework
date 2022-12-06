@@ -208,7 +208,6 @@ func (posts *post) Select() error {
 		if err != nil {
 			fmt.Println(err.Error())
 		}
-
 		posts.Rows = append(posts.Rows, post{
 			Id:    posts.Id,
 			Image: posts.Image,
@@ -857,8 +856,35 @@ func LogUser(log, pass string) us {
 	if err != nil {
 		fmt.Println(err)
 	}
-
 	res.Scan(&test.email, &test.pass, &test.name)
-
 	return test
+}
+
+func oneProductSelect(nameQuery string) product {
+	query := fmt.Sprintf(`SELECT * FROM "Products" WHERE "Name"='%s'`, nameQuery)
+	rows, err := db.Query(query)
+	if err != nil {
+		fmt.Println("Error = oneProductSelect() db.go")
+		panic(err)
+	}
+	employee := product{}
+
+	for rows.Next() {
+		var article, count int
+		var price float64
+		var series, name, image, description string
+		err = rows.Scan(&article, &series, &name, &price, &count, &image, &description)
+		if err != nil {
+			fmt.Println("Error = oneProductSelect() rows.Next()  db.go")
+			panic(err)
+		}
+		employee.Article = article
+		employee.Series = series
+		employee.Name = name
+		employee.Price = price
+		employee.Count = count
+		employee.Image = image
+		employee.Description = description
+	}
+	return employee
 }

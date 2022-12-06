@@ -17,8 +17,6 @@
     <!-- <title>Блог</title> -->
 </head>
 
-
-
 <header>
 
     <div class="intro">
@@ -48,32 +46,21 @@
                 <a onclick="getActive()" class="intro__link--item" href="/blog">Блог</a>
                 <a onclick="getActive()" class="intro__link--item" href="/brandphone">Все товары</a>
             </div>
-            <div class="intro__imgLink">  
-                <a class="intro__img" href=""><i class="fa-solid fa-magnifying-glass"></i></a>
+            <div class="intro__imgLink">
+                <!-- <form action="brandphone/access" method="post">   -->
+                    
+                    <buttons id="chechs" class="intro__img" onclick=""><i class="fa-solid fa-magnifying-glass"></i></buttons>
+                <!-- </form> -->
                 <a class="intro__img" href=""><i class="fa-solid fa-cart-shopping"></i></a>
                 <button  id="auth" class="intro__img" href=""><i onclick="authWindow()" id="user" class="fa-solid fa-user">
-                <!-- {{ if ne .Men "" }}
-                <i class="user_name ">{{ .Name }}</i>
-                {{ end }} -->
-                </i></button><!-- onclick="authWindow()" fas fa-plus -->
+                </i></button>
                 
             </div>
         </div>
-    </div>
-
-    <!-- {{ if eq .Role "true" }}
-        <i class="fas fa-plus"></i>
-    {{ end }} -->
-
-    
-    
-    
+    </div>    
    
 </header>
 
-
 <script src="/assets/js/script.js"></script>
-
-<!--Admin panel-->
 
 {{ end }}

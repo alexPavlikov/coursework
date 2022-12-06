@@ -15,8 +15,14 @@
 
 {{ template "header" }}
 
+
+<script src='//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js'></script>
+
 <body>
-    
+    <form id="formg" class="formbrand" action="brandphone/access" method="POST">
+        <input class="footer__menu-textarea" id='ajax_text' type='text' >
+        <input class="footer__menu-btn" id='ajax_btn' type='submit' value='Найти'>
+    </form>
     <div class="section">
         <div class="container brand">
            <div class="smart-part brandphone">
@@ -35,7 +41,7 @@
                     <div class="discount">Скидка 13%</div>
                     <div class="text">
                         
-                        <div class="name">{{ $p.Series }} <span>{{ $p.Name }}</span></div>
+                        <div class="name">{{ $p.Series }} <span class="spansz" id="{{ $p.Name }}">{{ $p.Name }}</span></div>
                         <div class="description">{{ $p.Description  }}<span></span>{{ $p.Count }}</div>
                         <div class="price">
                             
@@ -44,17 +50,57 @@
                         </div>
                     </div>
                     <div class="btns">
-                        <button class="pre-order__button">Купить</button>
-                        <button class="pre-order__button white">Подробнее</button>
-                        
+                        <form action="brandphone/access" method="GET" enctype="multipart/form-data">
+                            <label id="inputId" type="text" name="GoTest" class="good"></label>
+                            <a style="color: white;" href="/purchaseList/addPruchase" class="pre-order__button">Купить</a>
+                            <input id="{{ $p.Name }}" type="submit" class="pre-order__button white sub" value="Подробнее">   
+                        </form>
+                       
                     </div>
                     <div class="image">
                         <img src="{{ $p.Image }}" alt="">
                     </div>
                 </div>
                 {{ end }}    
+            </div>
         </div>
-    </section>
+    </section>    
+
+    <script>
+                    var clickId = '';
+                    let cache = '#';
+                    $(document).ready(function(){
+                        $('.sub').click(function(e) {
+                        clickId = $(this).attr('id');
+                            // alert('fa'+clickId);
+                            $.ajax({
+                                url: '/brandphone',
+                                type: 'GET',
+                                dataType: 'html',
+                                data : { new_post_data: clickId},
+                                success : function(data) {
+                                $('#result').html(data);
+                               },
+                            });
+                             alert(new_post_data);
+                        });
+                    });
+                   $(document).ready(function () { 
+                         $('#ajax_btn').click(function () {
+                             $.ajax({
+                               url: '/brandphone',
+                               type: 'post',
+                               dataType: 'html',
+                               data : { ajax_post_data: $('#ajax_text').val()},
+                               success : function(data) {
+                                //  alert('ajax data posted');
+                                 $('#result').html(data);
+                               },
+                             });
+                          });
+                    });
+                    
+    </script>
 
     <div class="section">
         <div class="container brand">
@@ -83,9 +129,10 @@
                         </div>
                     </div>
                     <div class="btns">
-                        <button class="pre-order__button">Купить</button>
-                        <button class="pre-order__button white">Подробнее</button>
-                        
+                        <form action="brandphone/access" method="post">
+                            <button class="pre-order__button">Купить</button> 
+                            <button type="button" class="pre-order__button white">Подробнее</button>
+                        </form>
                     </div>
                     <div class="image">
                         <img src="{{ $p.Image }}" alt="">

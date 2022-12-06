@@ -3,17 +3,24 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 	"text/template"
 	"time"
 
+	"github.com/PuerkitoBio/goquery"
 	_ "github.com/lib/pq"
 )
 
 var m manager
 var pe purchase
+var ajax_post_data string
+var new_post_data string
+var incorrect string
+var tr *string
 
 func main() {
 	fmt.Println("Listen on - " + cfg.ServerHost + ":" + cfg.ServerPort)
@@ -40,6 +47,7 @@ func main() {
 func handlerRequest() {
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/login", loginHandler)
+	http.HandleFunc("/login/access", loginAccessHandler)
 	http.HandleFunc("/registration", regHandler)
 	http.HandleFunc("/regHandlerPost", regHandlerPost)
 	http.HandleFunc("/brandphone", brandHandler)
@@ -67,9 +75,59 @@ func handlerRequest() {
 	http.HandleFunc("/admin/serdel", delSeriesHandler)
 	http.HandleFunc("/product/del", productDelHandler)
 	http.HandleFunc("/statistics", statHandler)
+	http.HandleFunc("/brandphone/access", accessHandler)
 }
 
 // -------------------------Реализация HandleFunc-------------------------
+func loginHandler(w http.ResponseWriter, r *http.Request) {
+
+	var ct series
+
+	err = ct.Select()
+	if err != nil {
+		fmt.Println("Error - main.go ct.Select()", err.Error())
+	}
+
+	data := json.NewDecoder(r.Body)
+	data.DisallowUnknownFields()
+	err = data.Decode(&m)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+
+	err = m.Select()
+	if err != nil {
+		fmt.Println("Error - incorrect login/password", err.Error())
+		incorrect = "Такого пользователя не существует"
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	fmt.Println(m.Login, m.Password, m.Name, m.Role)
+	tr = &m.Name
+
+	err = loginWarning(m.Login, m.Name)
+	if err != nil {
+		fmt.Println("Возникла ошибка в отправе сообщения")
+	}
+
+	//fmt.Fprintf(w, `<h1 class="News-title">Вы вошли в аккаунт email:%s; password: %s; name:%s</h1>`, m.Login, m.Password, m.Name)
+}
+
+func loginAccessHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles(cfg.Html+"result.html", cfg.Html+"header.html")
+	if err != nil {
+		http.NotFound(w, r)
+	}
+	if *tr != "" {
+		fmt.Fprintf(w, `<h1 class="News-title">Вы успешно авторизовались</h1>`)
+		//*tr = ""
+	} else {
+		fmt.Fprintf(w, `<h1 class="News-title">Ошибка! Такого пользователя не существует</h1>`)
+		//*tr = ""
+	}
+	tmpl.Execute(w, nil)
+}
+
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 
 	tmpl, err := template.ParseFiles(cfg.Html+"index.html", cfg.Html+"footer.html", cfg.Html+"header.html")
@@ -88,45 +146,8 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	LogUser(log, pass)
 
 	rows := map[string]interface{}{"Rows": ct.Rows}
-
 	tmpl.ExecuteTemplate(w, "index", nil)
 	tmpl.ExecuteTemplate(w, "header", rows)
-}
-
-func loginHandler(w http.ResponseWriter, r *http.Request) {
-
-	var ct series
-	err = ct.Select()
-	if err != nil {
-		fmt.Println("Error - main.go ct.Select()", err.Error())
-	}
-
-	data := json.NewDecoder(r.Body)
-	data.DisallowUnknownFields()
-	err = data.Decode(&m)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-	}
-
-	err = m.Select()
-	if err != nil {
-		fmt.Println("Error - incorrect login/password", err.Error())
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-	fmt.Println(m.Login, m.Password, m.Name, m.Role)
-	err = loginWarning(m.Login, m.Name)
-	if err != nil {
-		fmt.Println("Возникла ошибка в отправе сообщения")
-	}
-	fmt.Fprintf(w, `<h1 class="News-title">Вы вошли в аккаунт email:%s; password: %s; name:%s</h1>`, m.Login, m.Password, m.Name)
-
-	//
-	//tmpl.ExecuteTemplate(w, "header", rows)
-	//tmpl.Execute(w, rows)
-	// tmpl.ExecuteTemplate(w, "index", nil)
-	// rows := map[string]interface{}{"Rows": ct.Rows}
-	// tmpl.ExecuteTemplate(w, "header", rows)
 }
 
 func regHandler(w http.ResponseWriter, r *http.Request) {
@@ -196,6 +217,8 @@ func regHandlerPost(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, nil)
 }
 
+var prodq product
+
 func brandHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles(cfg.Html+"brandphone.html", cfg.Html+"footer.html", cfg.Html+"header.html")
 	if err != nil {
@@ -209,10 +232,64 @@ func brandHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	table := productSelect()
 	per := peripherySelect()
+	r.ParseForm()
+	if r.Method == "POST" {
+		ajax_post_data = r.FormValue("ajax_post_data")
+		fmt.Println(ajax_post_data)
+		prodq = oneProductSelect(ajax_post_data)
+	}
+	if r.Method == "GET" {
+		new_post_data = r.FormValue("new_post_data")
+		prodq = oneProductSelect(new_post_data)
+	}
 	data := map[string]interface{}{"Product": table, "Periphery": per}
 	tmpl.ExecuteTemplate(w, "brandphone", data)
 	rows := map[string]interface{}{"Rows": ct.Rows}
 	tmpl.ExecuteTemplate(w, "header", rows)
+}
+
+func accessHandler(w http.ResponseWriter, r *http.Request) {
+
+	html := fmt.Sprintf(`
+	<head>
+	<meta http-equiv="refresh" content="1" />
+    <link rel="shortcut icon" href="/data/site.ico">
+    <title>%s</title>
+	</head>
+	<body>
+		<section class="section">
+			<div class="brand_list">
+				<div class="brand-half">
+					<div id="%d" class="item itemN">
+						<div class="discount">Скидка 13%%</div>
+						<div class="text">
+							
+							<div class="name"> %s <span id="spanName"> %s </span></div>
+							<div class="description"> %s <span></span><br>В наличие (шт): %d</div>
+							<div class="price">
+								
+								<div class="store-week_newPrice"> %.2f <span>рублей</span></div>
+								<div class="store-week_oldPrice"></div>
+							</div>
+						</div>
+						<div class="btns">
+							<a style="color:white" href="/purchaseList/addPruchase" class="pre-order__button">Купить</a>							
+						</div>
+						<div class="image">
+							<img src="%s" alt="">
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</body>	
+	`, prodq.Name, prodq.Article, prodq.Series, prodq.Name, prodq.Description, prodq.Count, prodq.Price, prodq.Image)
+	tmpl, err := template.ParseFiles(cfg.Html+"result.html", cfg.Html+"header.html")
+	if err != nil {
+		http.NotFound(w, r)
+	}
+	fmt.Fprint(w, html)
+	tmpl.Execute(w, nil)
 }
 
 func smartphoneHandler(w http.ResponseWriter, r *http.Request) {
@@ -234,6 +311,17 @@ func smartphoneHandler(w http.ResponseWriter, r *http.Request) {
 	res1 := brandSelect(redmi, 8)
 	res2 := brandSelect(xiaomi, 4)
 	res3 := brandSelect(poco, 4)
+
+	r.ParseForm()
+	if r.Method == "POST" {
+		ajax_post_data = r.FormValue("ajax_post_data")
+		fmt.Println(ajax_post_data)
+		prodq = oneProductSelect(ajax_post_data)
+	}
+	if r.Method == "GET" {
+		new_post_data = r.FormValue("new_post_data")
+		prodq = oneProductSelect(new_post_data)
+	}
 
 	br := map[string]interface{}{"Redmi": res1, "Xiaomi": res2, "Poco": res3}
 	tmpl.ExecuteTemplate(w, "smartphone", br)
@@ -605,7 +693,10 @@ func buyPurchaseHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprintf(w, `<h1 class="News-title">Операция успешна выполнена</h1>`)
-
+	err = sendPurchase(f)
+	if err != nil {
+		fmt.Println("buyPurchaseHandler", err)
+	}
 	tmpl.Execute(w, nil)
 }
 
@@ -768,4 +859,19 @@ func statHandler(w http.ResponseWriter, r *http.Request) {
 	ar.Date = dt
 	rows := map[string]interface{}{"Col1": col1, "Col2": col2, "Col3": col3, "TPRedmi": result1, "TPXiaomi": result2, "TPPoco": result3, "Date": dt, "Price": pr}
 	tmpl.ExecuteTemplate(w, "stat", rows)
+}
+
+func getElem(page string, elem string, id string) string {
+	data, err := ioutil.ReadFile(page)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	doc, err := goquery.NewDocumentFromReader(strings.NewReader(string(data)))
+	if err != nil {
+		log.Fatal(err)
+	}
+	str := fmt.Sprintf(elem + "#" + id)
+	text := doc.Find(str)
+	return text.Text()
 }

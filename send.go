@@ -47,3 +47,23 @@ func loginWarning(email string, name string) error {
 	}
 	return nil
 }
+
+func sendPurchase(f foo) error {
+	m := gomail.NewMessage()
+	m.SetHeader("From", cfg.Email)
+	m.SetHeader("To", f.userPur)
+
+	m.SetHeader("Subject", "Интернет магазин прикалдесов MyInvention.ru")
+
+	message := fmt.Sprintf(`Поздравляем Вас с успешной покупкой - %d, цена - %.2f рублей, количество - %d шт, сумма к оплате - %.2f рублей, дата - %s`, f.products, f.price, f.valuePur, f.tprice, f.data)
+	m.SetBody("text/plain", message)
+	d := gomail.NewDialer("smtp.gmail.com", 587, "a.pavlikov2002@gmail.com", "isei dkte iiwl wior")
+
+	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
+
+	if err := d.DialAndSend(m); err != nil {
+		fmt.Println(err)
+		return err
+	}
+	return nil
+}

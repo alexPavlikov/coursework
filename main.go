@@ -94,7 +94,6 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
-
 	err = m.Select()
 	if err != nil {
 		fmt.Println("Error - incorrect login/password", err.Error())
@@ -118,12 +117,15 @@ func loginAccessHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.NotFound(w, r)
 	}
-	if *tr != "" {
+	brick := *tr
+	if brick != "" && m.Role == "" {
 		fmt.Fprintf(w, `<h1 class="News-title">Вы успешно авторизовались</h1>`)
-		//*tr = ""
+		//brick = ""
+	} else if m.Role != "" {
+		fmt.Fprintf(w, `<h1 class="News-title">Вы успешно авторизовались под ролью администратора</h1>`)
 	} else {
 		fmt.Fprintf(w, `<h1 class="News-title">Ошибка! Такого пользователя не существует</h1>`)
-		//*tr = ""
+		//brick = ""
 	}
 	tmpl.Execute(w, nil)
 }
@@ -134,7 +136,8 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.NotFound(w, r)
 	}
-
+	m.Role = ""
+	m.Name = ""
 	var ct series
 	err = ct.Select()
 	if err != nil {
